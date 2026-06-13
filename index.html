@@ -3,63 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARS System | پلتفرم هوشمند آرشام</title>
+    <title>ARS OS | Control Center</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root { --neon-blue: #00d2ff; --neon-green: #39ff14; --bg-dark: #080a0f; }
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            margin: 0;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(circle at center, #111a28 0%, #080a0f 100%);
+        }
+        .dashboard {
+            width: 90%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(15px);
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        }
+        .header h1 {
+            font-size: 2rem;
+            letter-spacing: 4px;
+            margin: 0;
+            background: linear-gradient(to right, var(--neon-blue), #9d50bb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .status-bar {
+            background: rgba(0,0,0,0.3);
+            border-radius: 50px;
+            padding: 10px 20px;
+            margin: 20px 0;
+            display: flex;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
-            overflow: hidden;
+            gap: 10px;
+            font-size: 0.9rem;
         }
-        .container {
-            text-align: center;
-            border: 1px solid #30363d;
-            padding: 2rem;
-            border-radius: 12px;
-            background: #161b22;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-        }
-        h1 {
-            color: #58a6ff;
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 2px;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #8b949e;
-        }
-        .status-pulse {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            background-color: #238636;
+        .pulse {
+            width: 10px;
+            height: 10px;
+            background: var(--neon-green);
             border-radius: 50%;
-            margin-left: 8px;
-            box-shadow: 0 0 0 rgba(35, 134, 54, 0.4);
-            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: blink 1.5s infinite;
         }
-        @keyframes pulse {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 134, 54, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(35, 134, 54, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(35, 134, 54, 0); }
+        @keyframes blink { 50% { opacity: 0.3; } }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 30px;
         }
+        .card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            background: rgba(0, 210, 255, 0.1);
+            border-color: var(--neon-blue);
+            transform: translateY(-5px);
+        }
+        .card i { font-size: 1.5rem; margin-bottom: 10px; color: var(--neon-blue); }
+        .card span { display: block; font-size: 0.8rem; opacity: 0.8; }
+
+        footer { margin-top: 30px; font-size: 0.7rem; color: rgba(255,255,255,0.3); }
     </style>
 </head>
 <body>
-    <div class="container">
+
+<div class="dashboard">
+    <div class="header">
         <h1>ARS SYSTEM</h1>
-        <p>سیستم هوشمند آرشام در حال بارگذاری است...</p>
-        <div>
-            <span class="status-pulse"></span>
-            <span style="color: #238636;">وضعیت سیستم: فعال</span>
+        <p>Core Intelligence Interface</p>
+    </div>
+
+    <div class="status-bar">
+        <div class="pulse"></div>
+        <span>سیستم مرکزی فعال است | پروتکل 5.5</span>
+    </div>
+
+    <div class="grid">
+        <div class="card" onclick="alert('اتصال به n8n برقرار نشد!')">
+            <i class="fas fa-robot"></i>
+            <strong>اجرای بات</strong>
+            <span>Automation Node</span>
+        </div>
+        <div class="card" onclick="location.reload()">
+            <i class="fas fa-sync"></i>
+            <strong>بروزرسانی</strong>
+            <span>Sync Data</span>
+        </div>
+        <div class="card">
+            <i class="fas fa-database"></i>
+            <strong>دیتابیس</strong>
+            <span>Neon Cloud</span>
+        </div>
+        <div class="card">
+            <i class="fas fa-code-branch"></i>
+            <strong>گیت‌هاب</strong>
+            <span>Repository</span>
         </div>
     </div>
+
+    <footer>
+        DESIGNED FOR ARSHAM | © 2026 ARS CORP
+    </footer>
+</div>
+
 </body>
 </html>
