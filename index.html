@@ -159,7 +159,7 @@
 </div>
 
 <!-- اسکریپت Firebase و منطق ورود -->
-<!-- فقط از CDN استفاده می‌کنیم و همه چیز را در یک اسکریپت قرار می‌دهیم -->
+<!-- اطمینان حاصل کنید که این اسکریپت‌ها درست قبل از اسکریپت اصلی شما قرار گرفته‌اند -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script>
@@ -175,8 +175,7 @@
     };
 
     // Initialize Firebase
-    // تابع initializeApp و getAuth و GoogleAuthProvider و signInWithPopup و onAuthStateChanged
-    // به دلیل اینکه از CDN استفاده می‌کنیم، مستقیماً در دسترس هستند (Global scope).
+    // وقتی اسکریپت‌های بالا (از CDN) بارگذاری شده باشند، توابع زیر باید در دسترس باشند:
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const googleProvider = new GoogleAuthProvider();
@@ -188,14 +187,12 @@
     if (loginButton) {
       loginButton.addEventListener('click', async () => {
         try {
-          // signInWithPopup مستقیماً قابل دسترسی است
           const result = await signInWithPopup(auth, googleProvider);
           const user = result.user;
           console.log("کاربر وارد شد:", user);
-          updateUI(user); // UI رو به روز کن
+          updateUI(user);
         } catch (error) {
           console.error("خطا در ورود:", error);
-          // نمایش پیام خطا به کاربر
           if (userInfoDiv) {
              userInfoDiv.innerText = "خطا در ورود. لطفاً دوباره تلاش کنید.";
           }
@@ -206,21 +203,20 @@
     }
 
     // 3. وضعیت ورود کاربر رو مدیریت کن و UI رو به روز کن
-    // onAuthStateChanged مستقیماً قابل دسترسی است
     onAuthStateChanged(auth, (user) => {
       if (user) {
         console.log("کاربر در حال حاضر وارد شده است:", user);
         updateUI(user);
       } else {
         console.log("کاربر خارج شده است.");
-        updateUI(null); // UI رو به حالت خروج برگردون
+        updateUI(null);
       }
     });
 
     // تابعی برای به روز رسانی UI بر اساس وضعیت کاربر
     function updateUI(user) {
         if (user) {
-            if (loginButton) loginButton.style.display = 'none'; // دکمه ورود رو مخفی کن
+            if (loginButton) loginButton.style.display = 'none';
             if (userInfoDiv) {
                 userInfoDiv.innerHTML = `
                     سلام ${user.displayName || user.email}! <br>
@@ -228,17 +224,16 @@
                 `;
             }
         } else {
-            if (loginButton) loginButton.style.display = 'block'; // دکمه ورود رو نمایش بده
-            if (userInfoDiv) userInfoDiv.innerText = ''; // اطلاعات کاربر رو پاک کن
+            if (loginButton) loginButton.style.display = 'block';
+            if (userInfoDiv) userInfoDiv.innerText = '';
         }
     }
 
     // تابع خروج
     function logout() {
-        // signOut مستقیماً قابل دسترسی است
         auth.signOut().then(() => {
             console.log("کاربر با موفقیت خارج شد.");
-            updateUI(null); // UI رو به حالت خروج برگردون
+            updateUI(null);
         }).catch((error) => {
             console.error("خطا در خروج:", error);
             if (userInfoDiv) {
