@@ -58,7 +58,7 @@
             animation: blink 1.5s infinite;
         }
         @keyframes blink { 50% { opacity: 0.3; } }
-        
+
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -80,6 +80,33 @@
         }
         .card i { font-size: 1.5rem; margin-bottom: 10px; color: var(--neon-blue); }
         .card span { display: block; font-size: 0.8rem; opacity: 0.8; }
+
+        /* استایل‌های مربوط به دکمه ورود */
+        .login-section {
+            margin-top: 30px;
+        }
+        #login-button {
+            background: linear-gradient(to right, var(--neon-blue), #9d50bb);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.5);
+            margin-bottom: 15px; /* فاصله با متن پایین */
+        }
+        #login-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.8);
+        }
+        #user-info {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 15px; /* فاصله با دکمه */
+        }
 
         footer { margin-top: 30px; font-size: 0.7rem; color: rgba(255,255,255,0.3); }
     </style>
@@ -113,17 +140,109 @@
             <strong>دیتابیس</strong>
             <span>Neon Cloud</span>
         </div>
-        <div class="card">
+        <div class="card" onclick="window.open('https://github.com/arshamstorm-boop/arshamstorm-boop.github.io', '_blank')">
             <i class="fas fa-code-branch"></i>
             <strong>گیت‌هاب</strong>
             <span>Repository</span>
         </div>
     </div>
 
+    <!-- بخش ورود با گوگل -->
+    <div class="login-section">
+        <button id="login-button">ورود با گوگل</button>
+        <div id="user-info"></div>
+    </div>
+
     <footer>
         DESIGNED FOR ARSHAM | © 2026 ARS CORP
     </footer>
 </div>
+
+<!-- اسکریپت Firebase و منطق ورود -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script>
+    // 1. Firebase رو مقداردهی اولیه کن
+    const firebaseConfig = {
+      apiKey: "AIzaSyA8uxWsvCcaj94MNmdlENvXe6DnvI21_u0",
+      authDomain: "ars-system-25319.firebaseapp.com",
+      projectId: "ars-system-25319",
+      storageBucket: "ars-system-25319.firebasestorage.app",
+      messagingSenderId: "153129390194",
+      appId: "1:153129390194:web:4fdbf3c51221e4345a72eb",
+      measurementId: "G-5TDFWW6ZQH"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
+
+    // 2. دکمه ورود با گوگل رو پیدا کن و رویداد کلیک رو بهش اضافه کن
+    const loginButton = document.getElementById('login-button');
+    const userInfoDiv = document.getElementById('user-info');
+
+    if (loginButton) {
+      loginButton.addEventListener('click', async () => {
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          // ورود موفقیت آمیز بود!
+          const user = result.user;
+          console.log("کاربر وارد شد:", user);
+          // UI رو بعد از ورود به روز کن
+          updateUI(user);
+        } catch (error) {
+          // خطا در ورود
+          console.error("خطا در ورود:", error);
+          userInfoDiv.innerText = "خطا در ورود. لطفاً دوباره تلاش کنید.";
+        }
+      });
+    } else {
+      console.error("دکمه ورود با ID 'login-button' پیدا نشد!");
+    }
+
+    // 3. وضعیت ورود کاربر رو مدیریت کن و UI رو به روز کن
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // کاربر وارد شده است
+        console.log("کاربر در حال حاضر وارد شده است:", user);
+        updateUI(user);
+      } else {
+        // کاربر وارد نشده است
+        console.log("کاربر خارج شده است.");
+        // UI رو برای حالت خروج تنظیم کن
+        loginButton.style.display = 'block'; // دکمه ورود رو نمایش بده
+        userInfoDiv.innerText = ''; // اطلاعات کاربر رو پاک کن
+      }
+    });
+
+    // تابعی برای به روز رسانی UI بر اساس وضعیت کاربر
+    function updateUI(user) {
+        if (user) {
+            loginButton.style.display = 'none'; // دکمه ورود رو مخفی کن
+            // نمایش اطلاعات کاربر
+            userInfoDiv.innerHTML = `
+                سلام ${user.displayName || user.email}! <br>
+                <button onclick="logout()" style="background: none; border: none; color: var(--neon-blue); cursor: pointer; font-size: 0.8rem;">خروج</button>
+            `;
+        } else {
+            loginButton.style.display = 'block'; // دکمه ورود رو نمایش بده
+            userInfoDiv.innerText = ''; // اطلاعات کاربر رو پاک کن
+        }
+    }
+
+    // تابع خروج
+    function logout() {
+        auth.signOut().then(() => {
+            console.log("کاربر با موفقیت خارج شد.");
+            updateUI(null); // UI رو به حالت خروج برگردون
+        }).catch((error) => {
+            console.error("خطا در خروج:", error);
+            userInfoDiv.innerText = "خطا در هنگام خروج. لطفاً دوباره تلاش کنید.";
+        });
+    }
+
+</script>
 
 </body>
 </html>
