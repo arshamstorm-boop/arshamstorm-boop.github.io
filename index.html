@@ -11,672 +11,140 @@
 
   <style>
     :root {
-      --bg1: #07111f;
-      --bg2: #0c1630;
-      --card: rgba(255, 255, 255, 0.08);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --text: #f5f7ff;
-      --muted: #b8c0d9;
-      --primary: #5ee7ff;
-      --secondary: #7c5cff;
-      --success: #35f2a1;
-      --danger: #ff6b81;
-      --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-      --radius: 24px;
+      --bg1: #07111f; --bg2: #0c1630; --card: rgba(255, 255, 255, 0.08);
+      --card-border: rgba(255, 255, 255, 0.12); --text: #f5f7ff; --muted: #b8c0d9;
+      --primary: #5ee7ff; --secondary: #7c5cff; --success: #35f2a1;
+      --danger: #ff6b81; --shadow: 0 20px 60px rgba(0, 0, 0, 0.45); --radius: 24px;
     }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-      font-family: "Vazirmatn", sans-serif;
-      color: var(--text);
-      background:
-        radial-gradient(circle at top right, rgba(124, 92, 255, 0.18), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(94, 231, 255, 0.15), transparent 30%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-    }
-
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      overflow-x: hidden;
-    }
-
-    .bg-blur {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-    }
-
-    .orb {
-      position: absolute;
-      border-radius: 50%;
-      filter: blur(60px);
-      opacity: 0.35;
-      animation: float 10s ease-in-out infinite;
-    }
-
-    .orb.one {
-      width: 260px;
-      height: 260px;
-      top: 8%;
-      right: 10%;
-      background: #6a5cff;
-    }
-
-    .orb.two {
-      width: 220px;
-      height: 220px;
-      bottom: 10%;
-      left: 8%;
-      background: #00d4ff;
-      animation-delay: 2s;
-    }
-
-    .orb.three {
-      width: 180px;
-      height: 180px;
-      bottom: 30%;
-      right: 25%;
-      background: #2fffaa;
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) translateX(0px); }
-      50% { transform: translateY(-18px) translateX(10px); }
-    }
-
-    .app {
-      width: 100%;
-      max-width: 1100px;
-      display: grid;
-      grid-template-columns: 1.1fr 0.9fr;
-      gap: 24px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .panel {
-      background: var(--card);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-    }
-
-    .hero {
-      padding: 42px;
-      min-height: 620px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      width: fit-content;
-      padding: 10px 16px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.08);
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .pulse {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--success);
-      box-shadow: 0 0 12px var(--success);
-      animation: pulse 1.4s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.35; transform: scale(0.85); }
-    }
-
-    .hero-content h1 {
-      margin: 22px 0 14px;
-      font-size: clamp(34px, 5vw, 62px);
-      line-height: 1.15;
-      font-weight: 800;
-      letter-spacing: -1px;
-    }
-
-    .gradient {
-      background: linear-gradient(90deg, #8cecff, #91a4ff, #b68cff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    .hero-content p {
-      margin: 0;
-      max-width: 620px;
-      color: var(--muted);
-      font-size: 17px;
-      line-height: 1.95;
-    }
-
-    .mini-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 28px;
-    }
-
-    .mini-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 18px;
-      padding: 18px;
-    }
-
-    .mini-card .title {
-      font-size: 14px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .mini-card .value {
-      font-size: 18px;
-      font-weight: 700;
-      color: white;
-    }
-
-    .auth-card {
-      padding: 32px;
-      min-height: 620px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .auth-card::before {
-      content: "";
-      position: absolute;
-      inset: auto -40px -40px auto;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(94, 231, 255, 0.18), transparent 70%);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .brand {
-      margin-bottom: 24px;
-      text-align: center;
-    }
-
-    .brand .logo {
-      width: 72px;
-      height: 72px;
-      margin: 0 auto 14px;
-      border-radius: 22px;
-      display: grid;
-      place-items: center;
-      font-size: 28px;
-      font-weight: 800;
-      color: white;
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
-      box-shadow: 0 12px 30px rgba(124, 92, 255, 0.35);
-    }
-
-    .brand h2 {
-      margin: 0;
-      font-size: 28px;
-      font-weight: 800;
-    }
-
-    .brand p {
-      margin: 10px 0 0;
-      color: var(--muted);
-      line-height: 1.9;
-      font-size: 14px;
-    }
-
-    .auth-box {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 22px;
-      padding: 22px;
-    }
-
-    .welcome-text {
-      font-size: 15px;
-      color: var(--muted);
-      margin-bottom: 18px;
-      text-align: center;
-      line-height: 1.9;
-    }
-
-    .google-btn {
-      width: 100%;
-      border: none;
-      outline: none;
-      border-radius: 18px;
-      padding: 16px 18px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 700;
-      cursor: pointer;
-      color: #0f172a;
-      background: linear-gradient(135deg, #ffffff, #eef6ff);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      transition: 0.25s ease;
-      box-shadow: 0 10px 25px rgba(255,255,255,0.12);
-    }
-
-    .google-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 16px 35px rgba(255,255,255,0.16);
-    }
-
-    .google-icon {
-      width: 22px;
-      height: 22px;
-      display: inline-block;
-      flex-shrink: 0;
-    }
-
-    .hint {
-      margin-top: 14px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.9;
-    }
-
-    .user-panel {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 14px;
-      animation: fadeUp 0.4s ease;
-    }
-
-    .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid rgba(255,255,255,0.18);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-    }
-
-    .user-name {
-      font-size: 24px;
-      font-weight: 800;
-    }
-
-    .user-email {
-      color: var(--muted);
-      font-size: 14px;
-      direction: ltr;
-      text-align: center;
-      word-break: break-word;
-    }
-
-    .uid-box {
-      width: 100%;
-      padding: 12px 14px;
-      background: rgba(255,255,255,0.05);
-      border: 1px dashed rgba(255,255,255,0.14);
-      border-radius: 14px;
-      color: #dbe6ff;
-      font-size: 12px;
-      word-break: break-all;
-    }
-
-    .actions {
-      width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 6px;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 16px;
-      padding: 14px 16px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: 0.25s ease;
-    }
-
-    .btn-primary {
-      color: #08111f;
-      background: linear-gradient(135deg, var(--primary), #c8f8ff);
-    }
-
-    .btn-danger {
-      color: white;
-      background: linear-gradient(135deg, #ff6b81, #ff8e53);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-    }
-
-    .message {
-      min-height: 24px;
-      margin-top: 14px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--muted);
-    }
-
-    .message.error {
-      color: #ff9fb2;
-    }
-
-    .message.success {
-      color: #99ffd0;
-    }
-
-    .footer-note {
-      margin-top: 20px;
-      text-align: center;
-      color: rgba(255,255,255,0.45);
-      font-size: 12px;
-      line-height: 1.8;
-    }
-
-    @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(8px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @media (max-width: 920px) {
-      .app {
-        grid-template-columns: 1fr;
-      }
-
-      .hero,
-      .auth-card {
-        min-height: auto;
-      }
-
-      .mini-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 560px) {
-      .hero,
-      .auth-card {
-        padding: 22px;
-      }
-
-      .actions {
-        grid-template-columns: 1fr;
-      }
-
-      .brand h2 {
-        font-size: 24px;
-      }
-
-      .hero-content h1 {
-        font-size: 32px;
-      }
-    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; font-family: "Vazirmatn", sans-serif; color: var(--text); background: radial-gradient(circle at top right, rgba(124, 92, 255, 0.18), transparent 30%), radial-gradient(circle at bottom left, rgba(94, 231, 255, 0.15), transparent 30%), linear-gradient(135deg, var(--bg1), var(--bg2)); }
+    body { display: flex; align-items: center; justify-content: center; padding: 24px; overflow-x: hidden; }
+    .bg-blur { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+    .orb { position: absolute; border-radius: 50%; filter: blur(60px); opacity: 0.35; animation: float 10s ease-in-out infinite; }
+    .orb.one { width: 260px; height: 260px; top: 8%; right: 10%; background: #6a5cff; }
+    .orb.two { width: 220px; height: 220px; bottom: 10%; left: 8%; background: #00d4ff; animation-delay: 2s; }
+    @keyframes float { 0%, 100% { transform: translateY(0px) translateX(0px); } 50% { transform: translateY(-18px) translateX(10px); } }
+    .app { width: 100%; max-width: 1100px; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 24px; position: relative; z-index: 1; }
+    .panel { background: var(--card); border: 1px solid var(--card-border); border-radius: var(--radius); box-shadow: var(--shadow); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+    .hero { padding: 42px; min-height: 620px; display: flex; flex-direction: column; justify-content: space-between; }
+    .badge { display: inline-flex; align-items: center; gap: 10px; width: fit-content; padding: 10px 16px; border-radius: 999px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); color: var(--muted); font-size: 14px; }
+    .pulse { width: 10px; height: 10px; border-radius: 50%; background: var(--success); box-shadow: 0 0 12px var(--success); animation: pulse 1.4s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.35; transform: scale(0.85); } }
+    .hero-content h1 { margin: 22px 0 14px; font-size: clamp(34px, 5vw, 62px); line-height: 1.15; font-weight: 800; letter-spacing: -1px; }
+    .gradient { background: linear-gradient(90deg, #8cecff, #91a4ff, #b68cff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .hero-content p { margin: 0; max-width: 620px; color: var(--muted); font-size: 17px; line-height: 1.95; }
+    .mini-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 28px; }
+    .mini-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 18px; }
+    .mini-card .title { font-size: 14px; color: var(--muted); margin-bottom: 8px; }
+    .mini-card .value { font-size: 18px; font-weight: 700; color: white; }
+    .auth-card { padding: 32px; min-height: 620px; display: flex; flex-direction: column; justify-content: center; position: relative; overflow: hidden; }
+    .brand { margin-bottom: 24px; text-align: center; }
+    .brand .logo { width: 72px; height: 72px; margin: 0 auto 14px; border-radius: 22px; display: grid; place-items: center; font-size: 28px; font-weight: 800; color: white; background: linear-gradient(135deg, var(--primary), var(--secondary)); box-shadow: 0 12px 30px rgba(124, 92, 255, 0.35); }
+    .brand h2 { margin: 0; font-size: 28px; font-weight: 800; }
+    .brand p { margin: 10px 0 0; color: var(--muted); line-height: 1.9; font-size: 14px; }
+    .auth-box { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 22px; padding: 22px; }
+    .google-btn { width: 100%; border: none; outline: none; border-radius: 18px; padding: 16px 18px; font-family: inherit; font-size: 16px; font-weight: 700; cursor: pointer; color: #0f172a; background: linear-gradient(135deg, #ffffff, #eef6ff); display: flex; align-items: center; justify-content: center; gap: 12px; transition: 0.25s ease; box-shadow: 0 10px 25px rgba(255,255,255,0.12); }
+    .user-panel { display: none; flex-direction: column; align-items: center; text-align: center; gap: 14px; animation: fadeUp 0.4s ease; }
+    .avatar { width: 88px; height: 88px; border-radius: 50%; object-fit: cover; border: 3px solid rgba(255,255,255,0.18); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .uid-box { width: 100%; padding: 12px 14px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.14); border-radius: 14px; color: #dbe6ff; font-size: 12px; word-break: break-all; }
+    .actions { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+    .btn { border: none; border-radius: 16px; padding: 14px 16px; font-family: inherit; font-size: 14px; font-weight: 700; cursor: pointer; transition: 0.25s ease; text-decoration: none; display: inline-block; }
+    .btn-primary { color: #08111f; background: linear-gradient(135deg, var(--primary), #c8f8ff); text-align: center; }
+    .btn-danger { color: white; background: linear-gradient(135deg, #ff6b81, #ff8e53); }
+    .message { min-height: 24px; margin-top: 14px; text-align: center; font-size: 13px; color: var(--muted); }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 920px) { .app { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
   <div class="bg-blur">
     <div class="orb one"></div>
     <div class="orb two"></div>
-    <div class="orb three"></div>
   </div>
 
   <main class="app">
     <section class="panel hero">
       <div>
-        <div class="badge">
-          <span class="pulse"></span>
-          <span>سیستم آماده است • Google Auth فعال</span>
-        </div>
-
+        <div class="badge"><span class="pulse"></span><span>سیستم آماده است • ARS Intelligence</span></div>
         <div class="hero-content">
-          <h1>
-            ورود امن به
-            <span class="gradient">پنل شخصی ARS</span>
-          </h1>
-          <p>
-            این نسخه، هسته‌ی اولیه‌ی سایت توئه آرشام. کاربر با اکانت گوگل خودش وارد می‌شود،
-            اطلاعات مخصوص خودش را می‌بیند و بعداً می‌توانیم همین را به یک داشبورد کامل،
-            حرفه‌ای و شخصی‌سازی‌شده تبدیل کنیم.
-          </p>
+          <h1>ورود امن به <span class="gradient">پنل شخصی ARS</span></h1>
+          <p>آرشام، این پورتال ورودی تو به دنیای تحلیل‌های هوشمند است. پس از تایید هویت، داشبورد اختصاصی تو بارگذاری خواهد شد.</p>
         </div>
-
         <div class="mini-grid">
-          <div class="mini-card">
-            <div class="title">نوع ورود</div>
-            <div class="value">Google Sign-In</div>
-          </div>
-          <div class="mini-card">
-            <div class="title">وضعیت احراز هویت</div>
-            <div class="value">Firebase Ready</div>
-          </div>
-          <div class="mini-card">
-            <div class="title">نسخه پایه</div>
-            <div class="value">Starter UI</div>
-          </div>
+          <div class="mini-card"><div class="title">نوع ورود</div><div class="value">Google Auth</div></div>
+          <div class="mini-card"><div class="title">امنیت</div><div class="value">Firebase 256bit</div></div>
+          <div class="mini-card"><div class="title">وضعیت</div><div class="value">Active</div></div>
         </div>
-      </div>
-
-      <div class="footer-note">
-        طراحی اولیه برای ورود کاربران و ساخت صفحه شخصی هر کاربر بر اساس حساب گوگل خودش
       </div>
     </section>
 
     <section class="panel auth-card">
-      <div class="brand">
-        <div class="logo">A</div>
-        <h2>ورود به حساب کاربری</h2>
-        <p>
-          برای ورود، روی دکمه زیر بزن. پنجره گوگل باز می‌شود و هر کاربر می‌تواند
-          اکانت خودش را انتخاب کند.
-        </p>
-      </div>
-
+      <div class="brand"><div class="logo">A</div><h2>خوش آمدی آرشام</h2><p>لطفاً برای دسترسی به ترمینال ترید، وارد حساب خود شوید.</p></div>
       <div class="auth-box">
         <div id="loginView">
-          <div class="welcome-text">
-            با ورود از طریق گوگل، وارد فضای شخصی خودت می‌شوی و اطلاعات حساب خودت نمایش داده می‌شود.
-          </div>
-
           <button id="googleLoginBtn" class="google-btn">
-            <svg class="google-icon" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.655 32.657 29.215 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/>
-              <path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/>
-              <path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.144 35.091 26.715 36 24 36c-5.194 0-9.625-3.33-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/>
-              <path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.06 3.118-3.276 5.666-6.084 7.57l.003-.002 6.19 5.238C35 40.5 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/>
-            </svg>
-            <span>ورود با حساب گوگل</span>
+            <svg style="width:22px;height:22px" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303C33.655 32.657 29.215 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z"/><path fill="#FF3D00" d="M6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4 16.318 4 9.656 8.337 6.306 14.691z"/><path fill="#4CAF50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238C29.144 35.091 26.715 36 24 36c-5.194 0-9.625-3.33-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44z"/><path fill="#1976D2" d="M43.611 20.083H42V20H24v8h11.303c-1.06 3.118-3.276 5.666-6.084 7.57l.003-.002 6.19 5.238C35 40.5 44 34 44 24c0-1.341-.138-2.65-.389-3.917z"/></svg>
+            <span>ورود با گوگل</span>
           </button>
-
-          <div class="hint">
-            بعد از کلیک، گوگل اجازه می‌دهد حساب خودت را انتخاب کنی.
-          </div>
         </div>
-
         <div id="userView" class="user-panel">
           <img id="userAvatar" class="avatar" src="" alt="avatar" />
-          <div id="userName" class="user-name">کاربر</div>
-          <div id="userEmail" class="user-email">example@gmail.com</div>
-          <div id="userUid" class="uid-box"></div>
-
+          <div id="userName" style="font-size:20px;font-weight:800"></div>
+          <div id="userEmail" class="user-email"></div>
           <div class="actions">
-            <button id="openProfileBtn" class="btn btn-primary">ورود به صفحه شخصی</button>
-            <button id="logoutBtn" class="btn btn-danger">خروج از حساب</button>
+            <a href="dashboard.html" class="btn btn-primary">ورود به داشبورد اصلی</a>
+            <button id="logoutBtn" class="btn btn-danger">خروج</button>
           </div>
         </div>
-
         <div id="message" class="message"></div>
-      </div>
-
-      <div class="footer-note">
-        ARS SYSTEM • Firebase Authentication • Google Provider
       </div>
     </section>
   </main>
 
-  <!-- Firebase v8 CDN -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
   <script>
-    // تنظیمات Firebase پروژه شما
     const firebaseConfig = {
       apiKey: "AIzaSyA8uxWsvCcaj94MNmdlENvXe6DnvI21_u0",
       authDomain: "ars-system-25319.firebaseapp.com",
       projectId: "ars-system-25319",
       storageBucket: "ars-system-25319.firebasestorage.app",
       messagingSenderId: "153129390194",
-      appId: "1:153129390194:web:4fdbf3c51221e4345a72eb",
-      measurementId: "G-5TDFWW6ZQH"
+      appId: "1:153129390194:web:4fdbf3c51221e4345a72eb"
     };
 
-    // مقداردهی Firebase
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-
+    if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
 
-    // برای اینکه کاربر بتواند اکانت خودش را انتخاب کند
-    provider.setCustomParameters({
-      prompt: "select_account"
-    });
-
-    // عناصر صفحه
     const loginView = document.getElementById("loginView");
     const userView = document.getElementById("userView");
     const googleLoginBtn = document.getElementById("googleLoginBtn");
     const logoutBtn = document.getElementById("logoutBtn");
-    const openProfileBtn = document.getElementById("openProfileBtn");
-
     const userAvatar = document.getElementById("userAvatar");
     const userName = document.getElementById("userName");
     const userEmail = document.getElementById("userEmail");
-    const userUid = document.getElementById("userUid");
     const message = document.getElementById("message");
 
-    function setMessage(text = "", type = "") {
-      message.textContent = text;
-      message.className = "message";
-      if (type) message.classList.add(type);
-    }
-
-    function showLoggedOutUI() {
-      loginView.style.display = "block";
-      userView.style.display = "none";
-      setMessage("هنوز وارد حساب نشده‌ای.", "");
-    }
-
-    function showLoggedInUI(user) {
-      loginView.style.display = "none";
-      userView.style.display = "flex";
-
-      userAvatar.src = user.photoURL || "https://via.placeholder.com/100?text=User";
-      userName.textContent = user.displayName || "کاربر گوگل";
-      userEmail.textContent = user.email || "ایمیل موجود نیست";
-      userUid.textContent = "UID: " + (user.uid || "unknown");
-
-      setMessage("با موفقیت وارد شدی.", "success");
-    }
-
-    function getFriendlyError(error) {
-      const code = error && error.code ? error.code : "";
-
-      switch (code) {
-        case "auth/popup-closed-by-user":
-          return "پنجره ورود توسط کاربر بسته شد.";
-        case "auth/cancelled-popup-request":
-          return "درخواست قبلی ورود هنوز باز است. دوباره تلاش کن.";
-        case "auth/popup-blocked":
-          return "مرورگر پنجره پاپ‌آپ را بسته است. Popup را برای این سایت فعال کن.";
-        case "auth/network-request-failed":
-          return "خطای شبکه رخ داده. اینترنتت را بررسی کن.";
-        case "auth/unauthorized-domain":
-          return "این دامنه در Firebase مجاز نشده. باید دامنه سایت را در Authorized Domains اضافه کنی.";
-        default:
-          return error.message || "یک خطای ناشناخته در ورود رخ داد.";
-      }
-    }
-
-    // ورود با گوگل
-    googleLoginBtn.addEventListener("click", async function () {
-      setMessage("در حال باز کردن پنجره ورود گوگل...", "");
-
-      try {
-        await auth.signInWithPopup(provider);
-      } catch (error) {
-        console.error("Login error:", error);
-        setMessage(getFriendlyError(error), "error");
-      }
+    googleLoginBtn.addEventListener("click", async () => {
+      try { await auth.signInWithPopup(provider); } catch (e) { message.textContent = e.message; }
     });
 
-    // خروج از حساب
-    logoutBtn.addEventListener("click", async function () {
-      try {
-        await auth.signOut();
-        setMessage("از حساب کاربری خارج شدی.", "");
-      } catch (error) {
-        console.error("Logout error:", error);
-        setMessage("خروج از حساب با خطا مواجه شد.", "error");
-      }
-    });
+    logoutBtn.addEventListener("click", async () => { await auth.signOut(); });
 
-    // دکمه ورود به صفحه شخصی
-    openProfileBtn.addEventListener("click", function () {
-      setMessage("فعلاً صفحه شخصی پایه است. مرحله بعدی، ساخت dashboard.html برای هر کاربر است.", "success");
-      // بعداً اینجا می‌تونیم بفرستیمش به داشبورد:
-      // window.location.href = "dashboard.html";
-    });
-
-    // کنترل وضعیت لاگین
-    auth.onAuthStateChanged(function (user) {
+    auth.onAuthStateChanged(user => {
       if (user) {
-        showLoggedInUI(user);
-        console.log("User signed in:", {
-          uid: user.uid,
-          name: user.displayName,
-          email: user.email
-        });
+        loginView.style.display = "none";
+        userView.style.display = "flex";
+        userAvatar.src = user.photoURL;
+        userName.textContent = user.displayName;
+        userEmail.textContent = user.email;
+        message.textContent = "آماده انتقال به مرکز کنترل...";
       } else {
-        showLoggedOutUI();
-        console.log("No user signed in.");
+        loginView.style.display = "block";
+        userView.style.display = "none";
+        message.textContent = "";
       }
     });
   </script>
