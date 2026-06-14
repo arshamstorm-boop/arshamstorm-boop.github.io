@@ -36,19 +36,13 @@ font-family:'Vazirmatn','Inter',sans-serif;
 
 body{
 
-background: radial-gradient(circle at 20% 30%, #6d28ff22, transparent 40%),
-radial-gradient(circle at 80% 70%, #ffd50022, transparent 40%),
-linear-gradient(180deg,var(--bg-dark),var(--bg-deep));
-
 min-height:100vh;
 color:white;
 overflow-x:hidden;
 
 }
 
-/* glowing particles */
-
-body::before{
+body::after{
 content:"";
 position:fixed;
 top:0;
@@ -63,6 +57,7 @@ radial-gradient(circle at 50% 20%,#6d28ff33 0px,transparent 120px);
 
 animation:float 12s infinite alternate;
 z-index:-1;
+pointer-events:none;
 }
 
 @keyframes float{
@@ -90,16 +85,20 @@ text-align:center;
 }
 
 /* مرکز صفحه */
-
 .center-stack{
-
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:20px;
-
-z-index:10;
-
+position: fixed;
+top: 50%;
+left: 50%;
+transform: translate(-50%, -50%);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 10px;
+z-index: 20;
+margin-top: 0;
+width: 100%;
+max-width: 420px;
 }
 
 /* سمت راست Features */
@@ -181,6 +180,18 @@ margin-bottom:20px;
 
 }
 
+.ars-floating-logo {
+    position: fixed;
+    top: 25%; /* یک‌سوم بالایی */
+    left: 15%; /* یک‌سوم سمت چپ - ست شده با فوتر */
+    transform: none;
+    z-index: 15;
+    text-align: left; /* تراز به چپ */
+    pointer-events: all; /* برای افکت موس */
+    display: flex;
+    flex-direction: column;
+}
+
 .tagline{
 
 opacity:0.8;
@@ -193,26 +204,15 @@ margin-bottom:50px;
 /* login card */
 
 .login-card{
-
-width:420px;
+width:380px; /* کمی جمع‌وجورتر */
 max-width:90%;
-
-background:var(--glass);
-backdrop-filter:blur(20px);
-
-border:1px solid var(--border);
-
-border-radius:18px;
-
-padding:40px;
-
-box-shadow:
-
-0 0 60px #6d28ff33,
-0 0 120px #ffd50011;
-
-transition:0.4s;
-
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(30px);
+border: 1px solid rgba(255, 213, 0, 0.2); /* حاشیه طلایی ملایم */
+border-radius: 28px;
+padding: 30px;
+box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 0 15px rgba(255,255,255,0.05);
+transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .login-card:hover{
@@ -227,9 +227,21 @@ box-shadow:
 
 .login-title{
 
-font-size:22px;
-font-weight:700;
+font-size:26px;
+font-weight:800;
 margin-bottom:30px;
+letter-spacing:1px;
+
+}
+
+.auth-title{
+
+font-family:'Vazirmatn',sans-serif;
+background:linear-gradient(90deg,#ffd500,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-align:center;
 
 }
 
@@ -244,9 +256,12 @@ justify-content:center;
 
 gap:12px;
 
+width:100%;
 background:white;
 color:black;
 
+border:none;
+outline:none;
 border-radius:10px;
 
 padding:14px;
@@ -267,6 +282,13 @@ transform:scale(1.04);
 
 }
 
+.google-btn{
+border: 1px solid rgba(255,213,0,0.3);
+background: rgba(255,255,255,0.95);
+box-shadow: 0 4px 15px rgba(255,213,0,0.2);
+}
+
+
 
 /* disabled inputs */
 
@@ -284,7 +306,7 @@ color:white;
 
 margin-bottom:14px;
 
-opacity:0.6;
+opacity:1;
 
 }
 
@@ -341,22 +363,32 @@ font-weight:700;
 
 margin-top:8px;
 
-opacity:0.4;
+opacity:1;
 
+cursor:pointer;
+
+}
+.signup-btn:disabled{
+opacity:0.7;
 cursor:not-allowed;
-
+filter:grayscale(0.1);
 }
 
 
-.feature-card:hover{
+/* focus effects */
 
-transform:translateY(-6px);
-
-border-color:var(--violet);
-
-box-shadow:0 0 40px #6d28ff44;
-
+.input:focus{
+outline:none;
+border-color:rgba(255,213,0,0.45);
+box-shadow:0 0 0 3px rgba(255,213,0,0.08);
 }
+
+.google-btn:focus,
+.signup-btn:focus{
+outline:none;
+box-shadow:0 0 0 3px rgba(255,213,0,0.12);
+}
+
 
 .feature-title{
 
@@ -402,20 +434,20 @@ font-size:14px;
 
 <section class="hero">
 
-<div class="center-stack">
-
-<h1 class="logo" id="arsSystem">
-ARS SYSTEM
+<h1 class="logo ars-floating-logo" id="arsSystem">
+    <span class="ars-part">ARS</span>
+    <span class="system-part">SYSTEM</span>
 </h1>
 
+<div class="center-stack">
 <div class="login-card">
 
 
-<div class="login-title">
-ARS SYSTEM ACCESS
+<div class="login-title auth-title">
+احراز هویت
 </div>
 
-<div class="google-btn" id="googleLogin">
+<button type="button" class="google-btn" id="googleLogin" aria-label="ورود با گوگل">
 
 <svg width="18" height="18" viewBox="0 0 48 48">
 <path fill="#EA4335" d="M24 9.5c3.3 0 6.3 1.2 8.6 3.2l6.4-6.4C34.6 2.5 29.6 0 24 0 14.8 0 6.9 5.5 3.3 13.4l7.5 5.8C12.6 13.6 17.8 9.5 24 9.5z"/>
@@ -426,12 +458,10 @@ ARS SYSTEM ACCESS
 
 ورود با Google
 
-</div>
+</button>
 
-
-<input class="input disabled" placeholder="ایمیل" />
-
-<input class="input disabled" placeholder="رمز عبور" />
+<input class="input" id="ars-email" type="email" placeholder="ایمیل" autocomplete="email" />
+<input class="input" id="ars-password" type="password" placeholder="رمز عبور" autocomplete="current-password" />
 
 <div class="divider">
 
@@ -443,8 +473,8 @@ ARS SYSTEM ACCESS
 
 </div>
 
-<button class="signup-btn">
-ساخت حساب کاربری
+<button class="signup-btn" id="emailLoginBtn">
+ورود به سیستم
 </button>
 
 </div>
@@ -600,54 +630,58 @@ loading.style.pointerEvents="none"
    FIREBASE CONFIG
 =========================== */
 
-/*
-   آرشام اینجا بعداً
-   config واقعی Firebase را قرار می‌دهی
-*/
-
 const firebaseConfig = {
+  apiKey: "AIzaSyA8uxWsvCcaj94MNmdlENvXe6DnvI21_u0",
+  authDomain: "ars-system-25319.firebaseapp.com",
+  projectId: "ars-system-25319",
+  storageBucket: "ars-system-25319.firebasestorage.app",
+  messagingSenderId: "153129390194",
+  appId: "1:153129390194:web:4fdbf3c51221e4345a72eb"
+};
 
-apiKey: "YOUR_API_KEY",
+// Initialize Firebase (فقط یک بار!)
+firebase.initializeApp(firebaseConfig);
 
-authDomain: "YOUR_DOMAIN",
+// Auth Instance
+const auth = firebase.auth();
 
-projectId: "YOUR_PROJECT",
-
-appId: "YOUR_APP_ID"
-
-}
-
-firebase.initializeApp(firebaseConfig)
-
-const auth = firebase.auth()
-
-const provider = new firebase.auth.GoogleAuthProvider()
-
-
+// Google Provider
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account"
+})
 
 /* ===========================
    GOOGLE LOGIN HANDLER
 =========================== */
 
 const googleBtn = document.getElementById("googleLogin")
+let googleLoginInProgress = false
+
+googleBtn.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault()
+    googleBtn.click()
+  }
+})
 
 googleBtn.addEventListener("click", async ()=>{
 
+if(googleLoginInProgress) return
+googleLoginInProgress = true
+
 try{
+
+googleBtn.style.pointerEvents = "none"
+googleBtn.style.opacity = "0.7"
 
 showLoading()
 
 const result = await auth.signInWithPopup(provider)
-
 const user = result.user
 
-console.log("ARS LOGIN:",user.email)
-
-setTimeout(()=>{
-
-window.location.href="dashboard.html"
-
-},900)
+console.log("ARS LOGIN:", user.email)
+console.log("در انتظار تأیید وضعیت ورود گوگل...")
 
 }
 catch(err){
@@ -656,12 +690,133 @@ console.error(err)
 
 hideLoading()
 
-alert("خطا در ورود")
+let googleError = "خطا در ورود با گوگل"
+
+switch(err.code){
+  case "auth/popup-closed-by-user":
+    googleError = "پنجره ورود توسط کاربر بسته شد"
+    break
+  case "auth/popup-blocked":
+    googleError = "مرورگر پنجره ورود گوگل را مسدود کرده است"
+    break
+  case "auth/cancelled-popup-request":
+    googleError = "درخواست ورود قبلی هنوز در حال پردازش است"
+    break
+  case "auth/network-request-failed":
+    googleError = "خطای شبکه، اتصال اینترنت را بررسی کنید"
+    break
+  default:
+    googleError = "خطا در ورود با گوگل: " + (err.message || "مشکل نامشخص")
+}
+
+alert(googleError)
+
+}
+finally{
+
+googleBtn.style.pointerEvents = "auto"
+googleBtn.style.opacity = "1"
+googleLoginInProgress = false
 
 }
 
 })
 
+
+/* ===========================
+   EMAIL/PASSWORD LOGIN
+=========================== */
+
+const emailBtn = document.getElementById("emailLoginBtn")
+const emailInput = document.getElementById("ars-email")
+const passwordInput = document.getElementById("ars-password")
+
+async function handleEmailLogin(){
+
+if(emailBtn.disabled) return
+
+const email = emailInput.value.trim()
+const password = passwordInput.value.trim()
+
+if(!email || !password){
+alert("لطفاً ایمیل و رمز عبور را وارد کنید")
+return
+}
+
+try{
+
+emailBtn.disabled = true
+emailBtn.style.opacity = "0.7"
+emailBtn.style.cursor = "wait"
+
+showLoading()
+
+await auth.signInWithEmailAndPassword(email, password)
+
+console.log("ورود موفقیت‌آمیز با ایمیل")
+console.log("در انتظار تأیید وضعیت ورود...")
+
+}
+catch(err){
+
+console.error(err)
+
+hideLoading()
+
+let errorMessage = "خطا در ورود"
+
+switch(err.code){
+  case "auth/invalid-email":
+    errorMessage = "ایمیل وارد شده معتبر نیست"
+    break
+  case "auth/user-disabled":
+    errorMessage = "این حساب کاربری غیرفعال شده است"
+    break
+  case "auth/user-not-found":
+    errorMessage = "کاربری با این ایمیل پیدا نشد"
+    break
+  case "auth/wrong-password":
+    errorMessage = "رمز عبور اشتباه است"
+    break
+  case "auth/invalid-login-credentials":
+    errorMessage = "ایمیل یا رمز عبور اشتباه است"
+    break
+  case "auth/too-many-requests":
+    errorMessage = "تعداد تلاش‌ها زیاد بوده، کمی بعد دوباره امتحان کنید"
+    break
+  case "auth/network-request-failed":
+    errorMessage = "خطای شبکه، اتصال اینترنت را بررسی کنید"
+    break
+  default:
+    errorMessage = "خطا: " + (err.message || "مشکل نامشخص")
+}
+
+alert(errorMessage)
+
+}
+finally{
+
+emailBtn.disabled = false
+emailBtn.style.opacity = "1"
+emailBtn.style.cursor = "pointer"
+
+}
+
+}
+
+emailBtn.addEventListener("click", handleEmailLogin)
+
+passwordInput.addEventListener("keydown", (e)=>{
+if(e.key === "Enter"){
+handleEmailLogin()
+}
+})
+
+emailInput.addEventListener("keydown", (e)=>{
+if(e.key === "Enter"){
+handleEmailLogin()
+}
+})
 
 
 /* ===========================
@@ -672,13 +827,21 @@ auth.onAuthStateChanged(user=>{
 
 if(user){
 
+const isDashboardPage = window.location.pathname.includes("dashboard.html")
+
+if(!isDashboardPage){
+
 showLoading()
 
 setTimeout(()=>{
-
-window.location.href="dashboard.html"
-
+window.location.href = "dashboard.html"
 },600)
+
+}
+
+}else{
+
+hideLoading()
 
 }
 
@@ -1357,15 +1520,13 @@ arsLoginRing.style.transform="translate(-50%,-50%) scale(0)"
 
 const arsHeader=document.createElement("div")
 
-arsHeader.style.width="100%"
-arsHeader.style.display="flex"
 arsHeader.style.position="fixed"
-arsHeader.style.top="20px"
-arsHeader.style.left="30px"
-arsHeader.style.justifyContent="flex-start"
-arsHeader.style.padding="18px 28px"
-arsHeader.style.boxSizing="border-box"
-
+arsHeader.style.top="40px"
+arsHeader.style.right="4%"
+arsHeader.style.width="auto"
+arsHeader.style.display="flex"
+arsHeader.style.justifyContent="center"
+arsHeader.style.zIndex="100"
 arsHeader.innerHTML=`
 
 <div class="arsSystemStatus">
@@ -1389,9 +1550,10 @@ document.body.prepend(arsHeader)
 const arsFooter=document.createElement("div")
 
 arsFooter.style.position="fixed"
-arsFooter.style.bottom="30px"
-arsFooter.style.left="40px"
-arsFooter.style.textAlign="left"
+arsFooter.style.bottom="40px"
+arsFooter.style.left="10%"; /* تراز دقیق با مرکز لوگو در سمت چپ */
+arsFooter.style.transform="translateX(-50%)" /* مرکزیت در آن فضا */
+arsFooter.style.textAlign="center" /* وسط‌چین کردن متن‌ها */
 arsFooter.style.boxSizing="border-box"
 arsFooter.style.opacity="0.9"
 
@@ -1491,66 +1653,25 @@ animation:arsPulse 2s infinite;
 
 /* ---------- footer ---------- */
 
-.arsFooterWrap{
-
-font-family:system-ui, -apple-system, Segoe UI, Roboto;
-
+.arsFooterWrap {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
-
-.arsFooterBrand{
-
-font-size:18px;
-
-letter-spacing:3px;
-
-margin-bottom:18px;
-
-color:white;
-
-opacity:0.9;
-
+.arsFooterBrand {
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    color: white;
+    font-weight: 800;
 }
-
-.arsFooterLinks{
-
-display:flex;
-
-justify-content:center;
-
-gap:26px;
-
-margin-bottom:16px;
-
+/* این خط کل فوتر رو می‌بره وسطِ یک‌سوم سمت چپ */
+div[style*="fixed"][style*="bottom: 40px"] {
+    left: 17.5% !important;
+    transform: translateX(-50%) !important;
 }
-
-.arsFooterLinks a{
-
-color:rgba(255,255,255,0.65);
-
-text-decoration:none;
-
-font-size:14px;
-
-transition:.25s;
-
-}
-
-.arsFooterLinks a:hover{
-
-color:#ffd500;
-
-}
-
-.arsFooterCopy{
-
-font-size:12px;
-
-color:rgba(255,255,255,0.35);
-
-letter-spacing:1px;
-
-}
-
 `
 
 document.head.appendChild(style)
@@ -1846,40 +1967,87 @@ const arsFocusStyle = document.createElement("style")
 
 arsFocusStyle.innerHTML=`
 
-.arsFocusWrap{
-position:relative;
-display:flex;
-justify-content:center;
-align-items:center;
-margin-top:120px;
-margin-bottom:120px;
+/* کانتینر اصلی لوگو - تراز شده بر اساس مرکز هندسی */
+.arsFocusWrap {
+    position: fixed;
+    top: 24%; /* کمی بالاتر از مرکز برای دید بهتر */
+    left: 13%; /* تنظیم شده برای ایجاد فضای بصری مناسب در سمت چپ */
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 14;
+    overflow: hidden; /* جلوگیری از بیرون زدن افکت اسکن روی دکمه گوگل */
 }
 
-#arsSystem{
-font-size:72px;
-letter-spacing:10px;
-font-weight:700;
-color:white;
-position:relative;
-z-index:3;
-font-family:"Space Grotesk",system-ui;
-text-align:center;
+#arsSystem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    /* این جادوی تراز کردن حرف R هست */
+    padding-right: 0.15em; 
+    letter-spacing: 15px; /* فاصله بیشتر برای ابهت بیشتر لوگو */
 }
 
-.arsCoreGlow{
-position:absolute;
-width:320px;
-height:320px;
-border-radius:50%;
-background:radial-gradient(circle,
-rgba(255,213,0,0.25),
-rgba(255,213,0,0.05),
-transparent 70%);
-filter:blur(40px);
-animation:coreBreath 4s ease-in-out infinite;
-z-index:1;
+.ars-part {
+    font-size: 110px; /* بزرگتر و قدرتمندتر */
+    font-weight: 900;
+    background: linear-gradient(to bottom, #ffffff, #ffd500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 15px rgba(255, 213, 0, 0.3));
 }
 
+.system-part {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    min-height: 30px;
+}
+
+/* افکت اسکنر محصور شده */
+.arsSweep {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: sweepCorrect 5s infinite;
+}
+
+@keyframes sweepCorrect {
+    0% { left: -100%; }
+    30% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* نرم و طبیعی نفس کشیدن */
+@keyframes arsCoreBreath{
+
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0.6;
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.15);
+        opacity:0.9;
+    }
+
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0.6;
+    }
+}
 .arsRing{
 position:absolute;
 border-radius:50%;
@@ -1946,4 +2114,88 @@ document.head.appendChild(arsFocusStyle)
 
 }
 
+/* ======================================
+   ARS LOGO INTERACTION (STEP 5)
+====================================== */
+
+document.addEventListener('mousemove', (e) => {
+
+const logo = document.querySelector('#arsSystem')
+const glow = document.querySelector('.arsCoreGlow')
+
+if(!logo || !glow) return
+
+const rect = logo.getBoundingClientRect()
+
+const centerX = rect.left + rect.width/2
+const centerY = rect.top + rect.height/2
+
+const dist = Math.hypot(
+e.clientX - centerX,
+e.clientY - centerY
+)
+
+if(dist < 300){
+
+const power = (300 - dist) / 300
+
+logo.style.transform =
+`scale(${1 + power*0.08})`
+
+glow.style.opacity =
+0.4 + power*0.6
+
+}else{
+
+logo.style.transform="scale(1)"
+glow.style.opacity="0.4"
+
+}
+
+})
+
 </script>
+
+<script>
+/* ======================================================
+   ARS NEURAL SCANNER - THE INTELLIGENCE CORE
+====================================================== */
+const wrapElement = document.querySelector('.arsFocusWrap');
+const systemText = document.querySelector('.system-part');
+
+// مدیریت رادار و تعامل بصری
+if(wrapElement) {
+    const radar = document.createElement('div');
+    radar.className = 'ai-radar-ring';
+    wrapElement.appendChild(radar);
+    wrapElement.style.pointerEvents = 'auto';
+    
+    wrapElement.addEventListener('mouseenter', () => {
+        radar.style.borderColor = 'rgba(255, 213, 0, 0.8)';
+        radar.style.borderStyle = 'solid';
+    });
+
+    wrapElement.addEventListener('mouseleave', () => {
+        radar.style.borderColor = 'rgba(255, 213, 0, 0.2)';
+        radar.style.borderStyle = 'dashed';
+    });
+}
+// مدیریت تغییر متن متغیر زیر ARS
+if(systemText){
+    const statuses = ["SYSTEM", "ANALYSER", "INTELLIGENCE", "ACTIVE"];
+    let i = 0;
+    setInterval(() => {
+        systemText.style.transition = "opacity 0.4s ease";
+        systemText.style.opacity = "0";
+        setTimeout(() => {
+            systemText.innerText = statuses[i];
+            systemText.style.opacity = "1";
+            i = (i + 1) % statuses.length;
+        }, 400);
+    }, 4000);
+}
+</script>
+
+
+</body>
+</html>
