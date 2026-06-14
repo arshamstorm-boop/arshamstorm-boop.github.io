@@ -608,6 +608,81 @@ animation:arsSpin 1s linear infinite;">
 0%{transform:rotate(0deg)}
 100%{transform:rotate(360deg)}
 }
+/* =========================
+   MOBILE FIX
+========================= */
+
+@media (max-width:768px){
+
+.hero{
+flex-direction:column;
+justify-content:flex-start;
+padding-top:80px;
+height:auto;
+}
+
+/* لوگو */
+
+.arsFocusWrap{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+height:auto;
+margin-bottom:40px;
+}
+
+.ars-floating-logo{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+}
+
+.ars-part{
+font-size:60px;
+}
+
+.system-part{
+font-size:16px;
+letter-spacing:6px;
+}
+
+/* login */
+
+.center-stack{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+padding:20px;
+}
+
+.login-card{
+width:100%;
+max-width:340px;
+margin:auto;
+}
+
+/* features */
+
+.features{
+position:relative;
+right:auto;
+top:auto;
+transform:none;
+width:100%;
+padding:20px;
+margin-top:30px;
+}
+
+.feature-card{
+transform:none !important;
+}
+
+}
 </style>
 
 `
@@ -1769,6 +1844,9 @@ document.head.appendChild(style)
 /* ================================
    CANVAS BACKGROUND
 ================================ */
+if(window.innerWidth < 768){
+console.log("Mobile mode: neural engine disabled")
+}else{
 
 const neuralCanvas = document.createElement("canvas")
 
@@ -1967,6 +2045,8 @@ opacity:0.7;
 `
 
 document.head.appendChild(arsNeuralStyle)
+
+}
 
 </script>
 
