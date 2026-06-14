@@ -12,7 +12,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://s3.tradingview.com/tv.js"></script>
 
-<!-- FIREBASE -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
@@ -29,8 +28,6 @@ color:#fff;
 display:flex;
 min-height:100vh;
 }
-
-/* SIDEBAR */
 
 .sidebar{
 width:260px;
@@ -62,14 +59,10 @@ background:rgba(99,102,241,0.15);
 color:#fff;
 }
 
-/* MAIN */
-
 .main{
 flex:1;
 padding:25px;
 }
-
-/* TOPBAR */
 
 .topbar{
 display:flex;
@@ -95,8 +88,6 @@ margin-right:10px;
 font-family:'Vazirmatn';
 }
 
-/* TICKER */
-
 .ticker{
 display:flex;
 gap:10px;
@@ -111,15 +102,11 @@ border-radius:10px;
 font-size:14px;
 }
 
-/* GRID */
-
 .grid{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
 gap:18px;
 }
-
-/* PANEL */
 
 .panel{
 background:rgba(255,255,255,0.04);
@@ -178,14 +165,11 @@ margin-right:6px;
 }
 
 </style>
-
 </head>
 
 <body>
 
 <div class="dashboard">
-
-<!-- SIDEBAR -->
 
 <aside class="sidebar">
 
@@ -203,8 +187,6 @@ AI CORE <span class="status"></span> ONLINE
 </div>
 
 </aside>
-
-<!-- MAIN -->
 
 <main class="main">
 
@@ -258,72 +240,28 @@ SOL 71%
 <canvas id="portfolio"></canvas>
 </div>
 
-<div class="panel">
-<h3>Top Traders</h3>
-<ol>
-<li>ARS AI +48%</li>
-<li>AlphaWolf +36%</li>
-<li>Trader X +29%</li>
-<li>QuantMaster +22%</li>
-</ol>
-</div>
-
-<div class="panel">
-<h3>Whale Tracker</h3>
-<div class="whale">🐳 1,250 BTC moved to Binance</div>
-<div class="whale">🐳 820 BTC moved to Coinbase</div>
-<div class="whale">🐳 500 ETH whale accumulation</div>
-</div>
-
-<div class="panel">
-<h3>Order Book</h3>
-<div class="order"><span>65000</span><span>12 BTC</span></div>
-<div class="order"><span>64980</span><span>9 BTC</span></div>
-<div class="order"><span>64950</span><span>15 BTC</span></div>
-<div class="order"><span>64920</span><span>6 BTC</span></div>
-</div>
-
-<div class="panel">
-<h3>Economic Calendar</h3>
-<p>🇺🇸 CPI Data — Today</p>
-<p>🇪🇺 ECB Speech — Tomorrow</p>
-<p>🇺🇸 FOMC Meeting — Wed</p>
-</div>
-
-<div class="panel">
-<h3>Smart Money Flow</h3>
-<p>BTC Institutional Inflow</p>
-<p>ETH Large Wallet Accumulation</p>
-<p>SOL Liquidity Increase</p>
-</div>
-
-<div class="panel">
-<h3>AI Backtesting</h3>
-<p>Strategy Winrate : 68%</p>
-<p>Profit Factor : 2.4</p>
-<p>Sharpe Ratio : 1.9</p>
-</div>
-
 </div>
 
 </main>
-
 </div>
 
 <script>
 
-/* FIREBASE CONFIG */
+/* FIREBASE */
 
 const firebaseConfig = {
 apiKey: "AIzaSyA8uxWsvCcaj94MNmdlENvXe6DnvI21_u0",
 authDomain: "ars-system-25319.firebaseapp.com",
 projectId: "ars-system-25319",
-storageBucket: "ars-system-25319.appspot.com",
+storageBucket: "ars-system-25319.firebasestorage.app",
 messagingSenderId: "153129390194",
 appId: "1:153129390194:web:4fdbf3c51221e4345a72eb"
 };
 
+if (!firebase.apps.length) {
 firebase.initializeApp(firebaseConfig);
+}
+
 const auth = firebase.auth();
 
 /* AUTH GUARD */
@@ -336,7 +274,11 @@ window.location.href="login.html"
 
 /* LOGOUT */
 
-document.getElementById("logoutBtn").onclick=async()=>{
+document.addEventListener("DOMContentLoaded",()=>{
+
+const logoutBtn=document.getElementById("logoutBtn")
+
+logoutBtn.addEventListener("click",async()=>{
 
 await auth.signOut()
 
@@ -345,30 +287,47 @@ sessionStorage.clear()
 
 window.location.href="login.html"
 
-}
+})
+
+})
 
 /* BINANCE TICKER */
 
 async function ticker(){
 
+try{
+
 const res=await fetch("https://api.binance.com/api/v3/ticker/price")
 const data=await res.json()
 
 const pairs=["BTCUSDT","ETHUSDT","BNBUSDT","SOLUSDT"]
+
 const box=document.getElementById("ticker")
 
 box.innerHTML=""
 
 pairs.forEach(p=>{
 
-const price=data.find(x=>x.symbol===p).price
+const coin=data.find(x=>x.symbol===p)
 
-box.innerHTML+=`<div class="ticker-item">
+if(!coin) return
+
+const price=parseFloat(coin.price)
+
+box.innerHTML+=`
+<div class="ticker-item">
 ${p.replace("USDT","")}
-<br>$${parseFloat(price).toLocaleString()}
-</div>`
+<br>$${price.toLocaleString()}
+</div>
+`
 
 })
+
+}catch(err){
+
+console.error("Ticker Error",err)
+
+}
 
 }
 
