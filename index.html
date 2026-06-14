@@ -476,6 +476,9 @@ font-size:14px;
 <button class="signup-btn" id="emailLoginBtn">
 ورود به سیستم
 </button>
+<button class="signup-btn" id="emailSignupBtn" style="margin-top:10px;background:linear-gradient(90deg,#ffd500,#ffea00);color:black;">
+ثبت نام
+</button>
 
 </div>
 
@@ -730,6 +733,63 @@ googleLoginInProgress = false
 const emailBtn = document.getElementById("emailLoginBtn")
 const emailInput = document.getElementById("ars-email")
 const passwordInput = document.getElementById("ars-password")
+const signupBtn = document.getElementById("emailSignupBtn")
+
+async function handleEmailSignup(){
+
+const email = emailInput.value.trim()
+const password = passwordInput.value.trim()
+
+if(!email || !password){
+alert("ایمیل و رمز عبور را وارد کنید")
+return
+}
+
+try{
+
+signupBtn.disabled = true
+showLoading()
+
+await auth.createUserWithEmailAndPassword(email, password)
+
+console.log("اکانت جدید ساخته شد")
+
+}catch(err){
+
+hideLoading()
+
+let msg="خطا در ثبت نام"
+
+switch(err.code){
+
+case "auth/email-already-in-use":
+msg="این ایمیل قبلاً ثبت شده"
+break
+
+case "auth/weak-password":
+msg="رمز عبور باید حداقل ۶ کاراکتر باشد"
+break
+
+case "auth/invalid-email":
+msg="ایمیل معتبر نیست"
+break
+
+default:
+msg="خطا: "+err.message
+
+}
+
+alert(msg)
+
+}finally{
+
+signupBtn.disabled=false
+
+}
+
+}
+
+signupBtn.addEventListener("click",handleEmailSignup)
 
 async function handleEmailLogin(){
 
