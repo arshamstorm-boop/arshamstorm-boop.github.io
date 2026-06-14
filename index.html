@@ -37,13 +37,14 @@ font-family:'Vazirmatn','Inter',sans-serif;
 html,body{
 width:100%;
 height:100%;
-overflow:hidden;
+overflow-x:hidden;
 }
 
 body{
 min-height:100vh;
 color:white;
 overflow:hidden;
+background: radial-gradient(circle at center,#0c0c10,#050507);
 }
 
 body::after{
@@ -434,35 +435,91 @@ font-size:14px;
 /* =========================
    MOBILE MODE
 ========================= */
+@media (max-width:768px){
 
-body.mobile .features{
+.hero{
+flex-direction:column;
+justify-content:flex-start;
+padding-top:90px;
+height:100vh;
+}
+
+.features{
 display:none;
 }
 
-body.mobile .center-stack{
-top:55%;
-transform:translate(-50%,-50%);
+.ars-floating-logo{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+text-align:center;
+margin-bottom:20px;
 }
 
-body.mobile .arsFocusWrap{
-top:35%;
-left:50%;
-transform:translate(-50%,-50%);
+.center-stack{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+padding:20px;
+display:flex;
+justify-content:center;
 }
 
-body.mobile .ars-part{
+
+
+.hero{
+flex-direction:column;
+justify-content:flex-start;
+padding-top:90px;
+height:100vh;
+}
+
+.features{
+display:none;
+}
+
+.center-stack{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+padding:20px;
+display:flex;
+justify-content:center;
+}
+
+.login-card{
+width:100%;
+max-width:340px;
+margin:auto;
+}
+
+.arsFocusWrap{
+position:relative;
+top:auto;
+left:auto;
+transform:none;
+width:100%;
+height:auto;
+margin-bottom:30px;
+}
+
+.ars-part{
 font-size:60px;
 }
 
-body.mobile .system-part{
+.system-part{
 font-size:16px;
 letter-spacing:6px;
 }
 
-body.mobile .login-card{
-max-width:340px;
-padding:24px;
 }
+
 </style>
 </head>
 
@@ -648,77 +705,6 @@ animation:arsSpin 1s linear infinite;">
    MOBILE FIX
 ========================= */
 
-@media (max-width:768px){
-
-.hero{
-flex-direction:column;
-justify-content:flex-start;
-padding-top:80px;
-height:auto;
-}
-
-/* لوگو */
-
-.arsFocusWrap{
-position:relative;
-top:auto;
-left:auto;
-transform:none;
-width:100%;
-height:auto;
-margin-bottom:40px;
-}
-
-.ars-floating-logo{
-position:relative;
-top:auto;
-left:auto;
-transform:none;
-}
-
-.ars-part{
-font-size:60px;
-}
-
-.system-part{
-font-size:16px;
-letter-spacing:6px;
-}
-
-/* login */
-
-.center-stack{
-position:relative;
-top:auto;
-left:auto;
-transform:none;
-width:100%;
-padding:20px;
-}
-
-.login-card{
-width:100%;
-max-width:340px;
-margin:auto;
-}
-
-/* features */
-
-.features{
-position:relative;
-right:auto;
-top:auto;
-transform:none;
-width:100%;
-padding:20px;
-margin-top:30px;
-}
-
-.feature-card{
-transform:none !important;
-}
-
-}
 </style>
 
 `
@@ -1743,8 +1729,13 @@ const arsFooter=document.createElement("div")
 
 arsFooter.style.position="fixed"
 arsFooter.style.bottom="40px"
-arsFooter.style.left="10%"; /* تراز دقیق با مرکز لوگو در سمت چپ */
-arsFooter.style.transform="translateX(-50%)" /* مرکزیت در آن فضا */
+if(window.innerWidth < 768){
+arsFooter.style.left="50%"
+arsFooter.style.transform="translateX(-50%)"
+}else{
+arsFooter.style.left="10%"
+arsFooter.style.transform="translateX(-50%)"
+}
 arsFooter.style.textAlign="center" /* وسط‌چین کردن متن‌ها */
 arsFooter.style.boxSizing="border-box"
 arsFooter.style.opacity="0.9"
@@ -1860,10 +1851,6 @@ animation:arsPulse 2s infinite;
     font-weight: 800;
 }
 /* این خط کل فوتر رو می‌بره وسطِ یک‌سوم سمت چپ */
-div[style*="fixed"][style*="bottom: 40px"] {
-    left: 17.5% !important;
-    transform: translateX(-50%) !important;
-}
 `
 
 document.head.appendChild(style)
@@ -1882,6 +1869,7 @@ document.head.appendChild(style)
 ================================ */
 if(window.innerWidth < 768){
 console.log("Mobile mode: neural engine disabled")
+document.body.style.background="radial-gradient(circle at center,#0c0c10,#050507)";
 }else{
 
 const neuralCanvas = document.createElement("canvas")
