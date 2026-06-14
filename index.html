@@ -461,7 +461,7 @@ font-size:14px;
 </button>
 
 <input class="input" id="ars-email" type="email" placeholder="ایمیل" autocomplete="email" />
-<input class="input" id="ars-password" type="password" placeholder="رمز عبور" autocomplete="current-password" />
+<input class="input" id="ars-password" type="password" placeholder="رمز عبور" autocomplete="new-password" />
 
 <div class="divider">
 
@@ -755,9 +755,21 @@ try{
 signupBtn.disabled = true
 showLoading()
 
-await auth.createUserWithEmailAndPassword(email, password)
+const result = await auth.createUserWithEmailAndPassword(email, password)
+const user = result.user
 
-console.log("اکانت جدید ساخته شد")
+await user.sendEmailVerification()
+
+await auth.signOut()
+
+hideLoading()
+
+alert("ثبت‌نام انجام شد. لینک تأیید به ایمیل شما ارسال شد. لطفاً ایمیل خود را تأیید کنید و سپس وارد شوید.")
+
+emailInput.value = ""
+passwordInput.value = ""
+
+console.log("اکانت ساخته شد و ایمیل تأیید ارسال شد")
 
 }catch(err){
 
@@ -807,6 +819,7 @@ if(!email || !password){
 alert("لطفاً ایمیل و رمز عبور را وارد کنید")
 return
 }
+emailBtn.addEventListener("click", handleEmailLogin)
 
 try{
 
@@ -816,10 +829,18 @@ emailBtn.style.cursor = "wait"
 
 showLoading()
 
-await auth.signInWithEmailAndPassword(email, password)
+const result = await auth.signInWithEmailAndPassword(email, password)
+const user = result.user
 
-console.log("ورود موفقیت‌آمیز با ایمیل")
-console.log("در انتظار تأیید وضعیت ورود...")
+if(!user.emailVerified){
+await auth.signOut()
+hideLoading()
+alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا لینک ارسال‌شده به ایمیل خود را باز کنید.")
+return
+}
+
+console.log("ورود موفقیت‌آمیز با ایمیل تاییدشده")
+console.log("در انتظار انتقال به داشبورد...")
 
 }
 catch(err){
@@ -841,8 +862,6 @@ switch(err.code){
     errorMessage = "کاربری با این ایمیل پیدا نشد"
     break
   case "auth/wrong-password":
-    errorMessage = "رمز عبور اشتباه است"
-    break
   case "auth/invalid-login-credentials":
     errorMessage = "ایمیل یا رمز عبور اشتباه است"
     break
@@ -869,8 +888,6 @@ emailBtn.style.cursor = "pointer"
 
 }
 
-emailBtn.addEventListener("click", handleEmailLogin)
-
 passwordInput.addEventListener("keydown", (e)=>{
 if(e.key === "Enter"){
 handleEmailLogin()
@@ -888,26 +905,40 @@ handleEmailLogin()
    AUTO LOGIN CHECK
 =========================== */
 
-auth.onAuthStateChanged(user=>{
+/* ===========================
+   AUTO LOGIN CHECK
+=========================== */
 
-if(user){
+auth.onAuthStateChanged(async (user) => {
+
+if(!user){
+hideLoading()
+return
+}
 
 const isDashboardPage = window.location.pathname.includes("dashboard.html")
+const providerId = user.providerData?.[0]?.providerId || "unknown"
+const isEmailPassword = providerId === "password"
+
+if(isEmailPassword && !user.emailVerified){
+hideLoading()
+await auth.signOut()
+alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا ایمیل خود را تأیید کنید.")
+return
+}
 
 if(!isDashboardPage){
 
 showLoading()
 
-// ذخیره اطلاعات کاربر در Firestore
 db.collection("users").doc(user.uid).set({
 
-email: user.email,
+email: user.email || "",
 name: user.displayName || "",
 uid: user.uid,
-provider: user.providerData[0]?.providerId || "email",
-
+provider: providerId,
+emailVerified: !!user.emailVerified,
 lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-
 role: "free"
 
 },{merge:true})
@@ -925,16 +956,9 @@ window.location.href="dashboard.html"
 .catch(err=>{
 
 console.error("Firestore error:",err)
-
 window.location.href="dashboard.html"
 
 })
-
-}
-
-}else{
-
-hideLoading()
 
 }
 
