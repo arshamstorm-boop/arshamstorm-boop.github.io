@@ -732,7 +732,7 @@ googleLoginInProgress = false
 
 
 /* ===========================
-   EMAIL/PASSWORD LOGIN
+   EMAIL/PASSWORD LOGIN & AUTH
 =========================== */
 
 const emailBtn = document.getElementById("emailLoginBtn")
@@ -740,228 +740,192 @@ const emailInput = document.getElementById("ars-email")
 const passwordInput = document.getElementById("ars-password")
 const signupBtn = document.getElementById("emailSignupBtn")
 
+// تابع ثبت‌نام و ارسال لینک تایید ایمیل
 async function handleEmailSignup(){
+  const email = emailInput.value.trim()
+  const password = passwordInput.value.trim()
 
-const email = emailInput.value.trim()
-const password = passwordInput.value.trim()
+  if(!email || !password){
+    alert("ایمیل و رمز عبور را وارد کنید")
+    return
+  }
 
-if(!email || !password){
-alert("ایمیل و رمز عبور را وارد کنید")
-return
+  try{
+    signupBtn.disabled = true
+    showLoading()
+
+    const result = await auth.createUserWithEmailAndPassword(email, password)
+    const user = result.user
+
+    await user.sendEmailVerification()
+    await auth.signOut()
+
+    hideLoading()
+    alert("ثبت‌نام انجام شد. لینک تأیید به ایمیل شما ارسال شد. لطفاً ایمیل خود را تأیید کنید و سپس وارد شوید.")
+
+    emailInput.value = ""
+    passwordInput.value = ""
+    console.log("اکانت ساخته شد و ایمیل تأیید ارسال شد")
+  } catch(err){
+    hideLoading()
+    let msg = "خطا در ثبت نام"
+    switch(err.code){
+      case "auth/email-already-in-use":
+        msg = "این ایمیل قبلاً ثبت شده"
+        break
+      case "auth/weak-password":
+        msg = "رمز عبور باید حداقل ۶ کاراکتر باشد"
+        break
+      case "auth/invalid-email":
+        msg = "ایمیل معتبر نیست"
+        break
+      default:
+        msg = "خطا: " + err.message
+    }
+    alert(msg)
+  } finally{
+    signupBtn.disabled = false
+  }
 }
 
-try{
-
-signupBtn.disabled = true
-showLoading()
-
-const result = await auth.createUserWithEmailAndPassword(email, password)
-const user = result.user
-
-await user.sendEmailVerification()
-
-await auth.signOut()
-
-hideLoading()
-
-alert("ثبت‌نام انجام شد. لینک تأیید به ایمیل شما ارسال شد. لطفاً ایمیل خود را تأیید کنید و سپس وارد شوید.")
-
-emailInput.value = ""
-passwordInput.value = ""
-
-console.log("اکانت ساخته شد و ایمیل تأیید ارسال شد")
-
-}catch(err){
-
-hideLoading()
-
-let msg="خطا در ثبت نام"
-
-switch(err.code){
-
-case "auth/email-already-in-use":
-msg="این ایمیل قبلاً ثبت شده"
-break
-
-case "auth/weak-password":
-msg="رمز عبور باید حداقل ۶ کاراکتر باشد"
-break
-
-case "auth/invalid-email":
-msg="ایمیل معتبر نیست"
-break
-
-default:
-msg="خطا: "+err.message
-
-}
-
-alert(msg)
-
-}finally{
-
-signupBtn.disabled=false
-
-}
-
-}
-
-signupBtn.addEventListener("click",handleEmailSignup)
-
+// تابع ورود با ایمیل و بررسی وضعیت تایید ایمیل
 async function handleEmailLogin(){
+  if(emailBtn.disabled) return
 
-if(emailBtn.disabled) return
+  const email = emailInput.value.trim()
+  const password = passwordInput.value.trim()
 
-const email = emailInput.value.trim()
-const password = passwordInput.value.trim()
+  if(!email || !password){
+    alert("لطفاً ایمیل و رمز عبور را وارد کنید")
+    return
+  }
 
-if(!email || !password){
-alert("لطفاً ایمیل و رمز عبور را وارد کنید")
-return
-}
-emailBtn.addEventListener("click", handleEmailLogin)
+  try{
+    emailBtn.disabled = true
+    emailBtn.style.opacity = "0.7"
+    emailBtn.style.cursor = "wait"
+    showLoading()
 
-try{
+    const result = await auth.signInWithEmailAndPassword(email, password)
+    const user = result.user
 
-emailBtn.disabled = true
-emailBtn.style.opacity = "0.7"
-emailBtn.style.cursor = "wait"
+    if(!user.emailVerified){
+      await auth.signOut()
+      hideLoading()
+      alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا لینک ارسال‌شده به ایمیل خود را باز کنید.")
+      return
+    }
 
-showLoading()
-
-const result = await auth.signInWithEmailAndPassword(email, password)
-const user = result.user
-
-if(!user.emailVerified){
-await auth.signOut()
-hideLoading()
-alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا لینک ارسال‌شده به ایمیل خود را باز کنید.")
-return
-}
-
-console.log("ورود موفقیت‌آمیز با ایمیل تاییدشده")
-console.log("در انتظار انتقال به داشبورد...")
-
-}
-catch(err){
-
-console.error(err)
-
-hideLoading()
-
-let errorMessage = "خطا در ورود"
-
-switch(err.code){
-  case "auth/invalid-email":
-    errorMessage = "ایمیل وارد شده معتبر نیست"
-    break
-  case "auth/user-disabled":
-    errorMessage = "این حساب کاربری غیرفعال شده است"
-    break
-  case "auth/user-not-found":
-    errorMessage = "کاربری با این ایمیل پیدا نشد"
-    break
-  case "auth/wrong-password":
-  case "auth/invalid-login-credentials":
-    errorMessage = "ایمیل یا رمز عبور اشتباه است"
-    break
-  case "auth/too-many-requests":
-    errorMessage = "تعداد تلاش‌ها زیاد بوده، کمی بعد دوباره امتحان کنید"
-    break
-  case "auth/network-request-failed":
-    errorMessage = "خطای شبکه، اتصال اینترنت را بررسی کنید"
-    break
-  default:
-    errorMessage = "خطا: " + (err.message || "مشکل نامشخص")
+    console.log("ورود موفقیت‌آمیز با ایمیل تاییدشده")
+  } catch(err){
+    console.error(err)
+    hideLoading()
+    let errorMessage = "خطا در ورود"
+    switch(err.code){
+      case "auth/invalid-email":
+        errorMessage = "ایمیل وارد شده معتبر نیست"
+        break
+      case "auth/user-disabled":
+        errorMessage = "این حساب کاربری غیرفعال شده است"
+        break
+      case "auth/user-not-found":
+        errorMessage = "کاربری با این ایمیل پیدا نشد"
+        break
+      case "auth/wrong-password":
+      case "auth/invalid-login-credentials":
+        errorMessage = "ایمیل یا رمز عبور اشتباه است"
+        break
+      case "auth/too-many-requests":
+        errorMessage = "تعداد تلاش‌ها زیاد بوده، کمی بعد دوباره امتحان کنید"
+        break
+      case "auth/network-request-failed":
+        errorMessage = "خطای شبکه، اتصال اینترنت را بررسی کنید"
+        break
+      default:
+        errorMessage = "خطا: " + (err.message || "مشکل نامشخص")
+    }
+    alert(errorMessage)
+  } finally{
+    emailBtn.disabled = false
+    emailBtn.style.opacity = "1"
+    emailBtn.style.cursor = "pointer"
+  }
 }
 
-alert(errorMessage)
+/* ======================================================
+   ARS EVENT LISTENERS - FINAL FIXED BY GapGPT
+====================================================== */
 
-}
-finally{
+// ۱. اتصال دکمه ثبت نام
+signupBtn.addEventListener("click", handleEmailSignup);
 
-emailBtn.disabled = false
-emailBtn.style.opacity = "1"
-emailBtn.style.cursor = "pointer"
+// ۲. اتصال دکمه ورود (این همان خطی بود که مشکل داشت)
+emailBtn.addEventListener("click", handleEmailLogin);
 
-}
+// ۳. فعال کردن دکمه اینتر (Enter) روی فیلد رمز عبور برای ورود سریع
+passwordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleEmailLogin();
+  }
+});
 
-}
+// ۴. فعال کردن دکمه اینتر (Enter) روی فیلد ایمیل
+emailInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleEmailLogin();
+  }
+});
 
-passwordInput.addEventListener("keydown", (e)=>{
-if(e.key === "Enter"){
-handleEmailLogin()
-}
-})
+/* ====================================================== */
 
-emailInput.addEventListener("keydown", (e)=>{
-if(e.key === "Enter"){
-handleEmailLogin()
-}
-})
 
 
 /* ===========================
-   AUTO LOGIN CHECK
-=========================== */
-
-/* ===========================
-   AUTO LOGIN CHECK
+   AUTO LOGIN & FIRESTORE SYNC
 =========================== */
 
 auth.onAuthStateChanged(async (user) => {
+  if(!user){
+    hideLoading()
+    return
+  }
 
-if(!user){
-hideLoading()
-return
-}
+  const isDashboardPage = window.location.pathname.includes("dashboard.html")
+  const providerId = user.providerData?.[0]?.providerId || "unknown"
+  const isEmailPassword = providerId === "password"
 
-const isDashboardPage = window.location.pathname.includes("dashboard.html")
-const providerId = user.providerData?.[0]?.providerId || "unknown"
-const isEmailPassword = providerId === "password"
+  // اگر روش ورود ایمیل/پسورد بود ولی هنوز تایید نشده بود، خارج شود
+  if(isEmailPassword && !user.emailVerified){
+    hideLoading()
+    await auth.signOut()
+    alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا ایمیل خود را تأیید کنید.")
+    return
+  }
 
-if(isEmailPassword && !user.emailVerified){
-hideLoading()
-await auth.signOut()
-alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا ایمیل خود را تأیید کنید.")
-return
-}
-
-if(!isDashboardPage){
-
-showLoading()
-
-db.collection("users").doc(user.uid).set({
-
-email: user.email || "",
-name: user.displayName || "",
-uid: user.uid,
-provider: providerId,
-emailVerified: !!user.emailVerified,
-lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
-role: "free"
-
-},{merge:true})
-
-.then(()=>{
-
-console.log("User synced with Firestore")
-
-setTimeout(()=>{
-window.location.href="dashboard.html"
-},600)
-
-})
-
-.catch(err=>{
-
-console.error("Firestore error:",err)
-window.location.href="dashboard.html"
-
-})
-
-}
-
+  // فرآیند همگام‌سازی با فایراستور و انتقال کاربر
+  if(!isDashboardPage){
+    showLoading()
+    db.collection("users").doc(user.uid).set({
+      email: user.email || "",
+      name: user.displayName || "",
+      uid: user.uid,
+      provider: providerId,
+      emailVerified: !!user.emailVerified,
+      lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+      role: "free"
+    }, {merge: true})
+    .then(()=>{
+      console.log("اطلاعات کاربر با موفقیت در فایراستور سینک شد.");
+      setTimeout(()=>{
+        window.location.href = "dashboard.html"
+      }, 400)
+    })
+    .catch(err => {
+      console.error("خطا در ذخیره‌سازی فایراستور:", err)
+      // در صورت بروز خطا در دیتابیس نیز کاربر را ریدایرکت می‌کنیم تا جریان تجربه کاربری قطع نشود
+      window.location.href = "dashboard.html"
+    })
+  }
 })
 
 </script>
