@@ -561,6 +561,7 @@ font-size:14px;
 
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
 <script>
 
@@ -647,6 +648,10 @@ firebase.initializeApp(firebaseConfig);
 
 // Auth Instance
 const auth = firebase.auth();
+
+// Firestore Database
+const db = firebase.firestore();
+
 
 // Google Provider
 const provider = new firebase.auth.GoogleAuthProvider();
@@ -893,9 +898,37 @@ if(!isDashboardPage){
 
 showLoading()
 
+// ذخیره اطلاعات کاربر در Firestore
+db.collection("users").doc(user.uid).set({
+
+email: user.email,
+name: user.displayName || "",
+uid: user.uid,
+provider: user.providerData[0]?.providerId || "email",
+
+lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+
+role: "free"
+
+},{merge:true})
+
+.then(()=>{
+
+console.log("User synced with Firestore")
+
 setTimeout(()=>{
-window.location.href = "dashboard.html"
+window.location.href="dashboard.html"
 },600)
+
+})
+
+.catch(err=>{
+
+console.error("Firestore error:",err)
+
+window.location.href="dashboard.html"
+
+})
 
 }
 
