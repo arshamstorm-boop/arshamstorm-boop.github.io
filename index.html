@@ -35,14 +35,11 @@ font-family:'Vazirmatn','Inter',sans-serif;
 }
 
 body{
-height:100vh;
-overflow:hidden;
+
+min-height:100vh;
 color:white;
-background: radial-gradient(circle at center,#0c0c10,#050507);
-}
-color:white;
-overflow:hidden;
-background: radial-gradient(circle at center,#0c0c10,#050507);
+overflow-x:hidden;
+
 }
 
 body::after{
@@ -620,7 +617,7 @@ animation:arsSpin 1s linear infinite;">
 .hero{
 flex-direction:column;
 justify-content:flex-start;
-padding-top:20px;
+padding-top:80px;
 height:auto;
 }
 
@@ -656,13 +653,6 @@ letter-spacing:6px;
 
 .center-stack{
 position:relative;
-top:auto;
-left:auto;
-transform:none;
-width:100%;
-padding:10px 20px 0 20px;
-margin-top:-20px;
-}
 top:auto;
 left:auto;
 transform:none;
@@ -1716,7 +1706,7 @@ document.body.prepend(arsHeader)
 const arsFooter=document.createElement("div")
 
 arsFooter.style.position="fixed"
-arsFooter.style.bottom="20px"
+arsFooter.style.bottom="40px"
 arsFooter.style.left="10%"; /* تراز دقیق با مرکز لوگو در سمت چپ */
 arsFooter.style.transform="translateX(-50%)" /* مرکزیت در آن فضا */
 arsFooter.style.textAlign="center" /* وسط‌چین کردن متن‌ها */
