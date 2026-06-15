@@ -92,16 +92,16 @@ text-align:center;
 
 /* مرکز صفحه */
 .center-stack{
-position: fixed;
-top: 50%;
-left: 50%;
+position: relative;
+top: 43%;
+left: 18%;
 transform: translate(-50%, -50%);
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
 gap: 10px;
-z-index: 20;
+z-index: 60;
 margin-top: 0;
 width: 100%;
 max-width: 420px;
@@ -437,64 +437,151 @@ font-size:14px;
 ========================= */
 @media (max-width:768px){
 
-/* ساختار اصلی صفحه در موبایل */
+/* =================================
+   ARS MOBILE POSITION ENGINE
+   Range Control: -100 → +100
+================================= */
+
+:root{
+
+/* LOGO CONTROL */
+
+--logo-x:50;   /* چپ و راست  (-100 → 100) */
+--logo-y:0; /* بالا پایین (-100 → 100) */
+
+
+/* LOGIN CONTROL */
+
+--login-x:0;  /* چپ و راست  (-100 → 100) */
+--login-y:0; /* بالا پایین (-100 → 100) */
+
+}
+
+
+/* ============================= */
+
 .hero{
-    flex-direction:column;
-    justify-content:flex-start;
-    padding-top:70px;
-    min-height:100dvh;
-    overflow:visible !important;
+position:relative;
+height:100dvh;
+overflow:hidden;
+padding:0;
 }
 
-/* مخفی کردن بخش‌های اضافی */
+
+/* مخفی کردن features */
+
 .features{
-    display:none;
+display:none;
 }
 
-/* لوگوی ARS دقیقاً وسط */
+
+/* =================================
+   LOGO POSITION SYSTEM
+================================= */
+
 .arsFocusWrap{
-    position:relative !important;
-    width:100%;
-    height:auto;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    margin-bottom:10px;
+
+position:absolute !important;
+
+top:13% !important;
+left:50% !important;
+
+transform:
+translateX(calc(-50% + (var(--logo-x) * 1vw)))
+translateY(calc(-50% + (var(--logo-y) * 1vh)));
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+width:100%;
+
+z-index:5;
+
+
 }
 
-#arsSystem{
-    position:relative !important;
-    left:0 !important;
-    transform:none !important;
-    width:100%;
-    text-align:center;
-    padding-right:0 !important;
+
+/* =================================
+   LOGIN POSITION SYSTEM
+================================= */
+
+.center-stack{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translateX(calc(-50% + (var(--login-x) * 1vw)))
+translateY(calc(-50% + (var(--login-y) * 1vh)));
+
+width:100%;
+max-width:420px;
+
+display:flex;
+justify-content:center;
+
+z-index:60;
+
 }
 
-/* سایز نوشته لوگو */
+
+/* ================================= */
+
+.login-card{
+width:92%;
+max-width:380px;
+margin:auto;
+}
+
+
+/* ================================= */
+
 .ars-part{
-    font-size:65px;
+font-size:38px;
 }
 
 .system-part{
-    font-size:16px;
-    letter-spacing:6px;
+font-size:20px;
+letter-spacing:6px;
+margin-top:-13px;
 }
 
-/* کارت لاگین */
-.center-stack{
-    position:relative;
-    width:100%;
-    padding:15px 20px;
-    display:flex;
-    justify-content:center;
-    margin-top:-10px;
+
+/* ================================= */
+
+.arsSystemStatus{
+position:fixed;
+top:12px;
+right:18px;
+z-index:100;
+}
+.ars-part{
+font-size:90px !important;
 }
 
-.login-card{
-    width:100%;
-    max-width:340px;
-    margin:auto;
+.system-part{
+font-size:18px !important;
+letter-spacing:4px !important;
+display:none !important;
+}
+
+#arsSystem{
+filter:none !important;
+text-shadow:none !important;
+}
+
+.arsCoreGlow{
+display:none !important;
+}
+.arsCore,
+.arsCoreGlow,
+.arsRing,
+.arsSweep,
+.ai-radar-ring{
+display:none !important;
 }
 
 }
@@ -507,13 +594,13 @@ font-size:14px;
 
 <section class="hero">
 
-<h1 class="logo ars-floating-logo" id="arsSystem">
+<h1 class="logo" id="arsSystem">
     <span class="ars-part">ARS</span>
     <span class="system-part">SYSTEM</span>
 </h1>
 
 <div class="center-stack">
-<div class="login-card">
+<div class="login-card" dir="ltr">
 
 
 <div class="login-title auth-title">
@@ -549,6 +636,13 @@ font-size:14px;
 <button class="signup-btn" id="emailLoginBtn">
 ورود به سیستم
 </button>
+
+<div style="margin-top:12px;text-align:center;font-size:13px;opacity:0.8;">
+<a href="#" id="forgotPassword" style="color:#ffd500;text-decoration:none;">
+رمز عبور را فراموش کرده‌اید؟
+</a>
+</div>
+
 <button class="signup-btn" id="emailSignupBtn" style="margin-top:10px;background:linear-gradient(90deg,#ffd500,#ffea00);color:black;">
 ثبت نام
 </button>
@@ -816,6 +910,7 @@ const emailBtn = document.getElementById("emailLoginBtn")
 const emailInput = document.getElementById("ars-email")
 const passwordInput = document.getElementById("ars-password")
 const signupBtn = document.getElementById("emailSignupBtn")
+const forgotBtn = document.getElementById("forgotPassword")
 
 // تابع ثبت‌نام و ارسال لینک تایید ایمیل
 async function handleEmailSignup(){
@@ -928,7 +1023,59 @@ async function handleEmailLogin(){
     emailBtn.style.cursor = "pointer"
   }
 }
+/* ===========================
+   PASSWORD RESET FUNCTION
+=========================== */
 
+async function handlePasswordReset(){
+
+const email = emailInput.value.trim()
+
+if(!email){
+alert("ابتدا ایمیل خود را وارد کنید")
+return
+}
+
+try{
+
+showLoading()
+
+await auth.sendPasswordResetEmail(email)
+
+hideLoading()
+
+alert("لینک بازیابی رمز عبور به ایمیل شما ارسال شد")
+
+}catch(err){
+
+hideLoading()
+
+let msg="خطا در ارسال ایمیل"
+
+switch(err.code){
+
+case "auth/user-not-found":
+msg="کاربری با این ایمیل پیدا نشد"
+break
+
+case "auth/invalid-email":
+msg="ایمیل معتبر نیست"
+break
+
+case "auth/network-request-failed":
+msg="خطای اینترنت"
+break
+
+default:
+msg="خطا: "+err.message
+
+}
+
+alert(msg)
+
+}
+
+}
 /* ======================================================
    ARS EVENT LISTENERS - FINAL FIXED BY GapGPT
 ====================================================== */
@@ -938,6 +1085,11 @@ signupBtn.addEventListener("click", handleEmailSignup);
 
 // ۲. اتصال دکمه ورود (این همان خطی بود که مشکل داشت)
 emailBtn.addEventListener("click", handleEmailLogin);
+
+forgotBtn.addEventListener("click",(e)=>{
+e.preventDefault()
+handlePasswordReset()
+})
 
 // ۳. فعال کردن دکمه اینتر (Enter) روی فیلد رمز عبور برای ورود سریع
 passwordInput.addEventListener("keydown", (e) => {
@@ -1012,6 +1164,9 @@ auth.onAuthStateChanged(async (user) => {
    ARS AI CURSOR ENGINE — SUPER ELITE VERSION
 ===================================================== */
 
+if(window.matchMedia("(max-width:768px)").matches){
+return
+}
 
 /* ---------- CREATE CURSOR ---------- */
 
@@ -1310,7 +1465,9 @@ resizeArsCanvas()
 
 const arsParticles = []
 
-for(let i=0;i<60;i++){
+const particleCount = window.innerWidth < 768 ? 18 : 60
+
+for(let i=0;i<particleCount;i++){
 
 arsParticles.push({
 
@@ -1325,6 +1482,7 @@ size:Math.random()*2+1
 })
 
 }
+
 
 
 
@@ -1348,7 +1506,7 @@ arsPctx.fill()
 
 })
 
-requestAnimationFrame(drawArsParticles)
+setTimeout(()=>requestAnimationFrame(drawArsParticles),40)
 
 }
 
@@ -1360,7 +1518,9 @@ drawArsParticles()
    LIGHT RAYS
 ========================= */
 
-for(let i=0;i<5;i++){
+const rayCount = window.innerWidth < 768 ? 0 : 5
+
+for(let i=0;i<rayCount;i++){
 
 const arsRay=document.createElement("div")
 
@@ -1453,6 +1613,11 @@ arsMouseY=e.clientY
 
 function arsParallax(){
 
+if(window.innerWidth < 768){
+requestAnimationFrame(arsParallax)
+return
+}
+
 const x = (arsMouseX/window.innerWidth -0.5)*20
 const y = (arsMouseY/window.innerHeight -0.5)*20
 
@@ -1497,7 +1662,9 @@ arsParticles.length=0
 
 }else{
 
-for(let i=0;i<40;i++){
+const restoreCount = window.innerWidth < 768 ? 10 : 40
+
+for(let i=0;i<restoreCount;i++){
 
 arsParticles.push({
 
@@ -1893,7 +2060,7 @@ window.addEventListener("resize", resizeNeuralCanvas)
 
 const neuralParticles = []
 
-const particleCount = 90
+const particleCount = window.innerWidth < 768 ? 20 : 90
 
 for(let i=0;i<particleCount;i++){
 
@@ -2141,8 +2308,8 @@ arsFocusStyle.innerHTML=`
 /* کانتینر اصلی لوگو - تراز شده بر اساس مرکز هندسی */
 .arsFocusWrap {
     position: fixed;
-    top: 24%; /* کمی بالاتر از مرکز برای دید بهتر */
-    left: 13%; /* تنظیم شده برای ایجاد فضای بصری مناسب در سمت چپ */
+    top: 43%; /* کمی بالاتر از مرکز برای دید بهتر */
+    left: 18%; /* تنظیم شده برای ایجاد فضای بصری مناسب در سمت چپ */
     transform: translate(-50%, -50%);
     width: 500px;
     height: 500px;
@@ -2154,14 +2321,15 @@ arsFocusStyle.innerHTML=`
 }
 
 #arsSystem {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    /* این جادوی تراز کردن حرف R هست */
-    padding-right: 0.15em; 
-    letter-spacing: 15px; /* فاصله بیشتر برای ابهت بیشتر لوگو */
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding-right: 0.15em;
+letter-spacing: 15px;
+overflow:hidden;
+position:relative;
 }
 
 .ars-part {
