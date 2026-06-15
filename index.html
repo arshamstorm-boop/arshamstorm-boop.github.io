@@ -1,0 +1,2563 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARS SYSTEM | Cognitive Trading Intelligence</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;600;800&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+:root{
+
+--bg-dark:#0f0a1f;
+--bg-deep:#1b1235;
+
+--purple:#6d28ff;
+--violet:#8b5cf6;
+
+--gold:#ffd500;
+--neon:#ffea00;
+
+--glass:rgba(255,255,255,0.06);
+--border:rgba(255,255,255,0.1);
+
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Vazirmatn','Inter',sans-serif;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow-x:hidden;
+}
+
+body{
+min-height:100vh;
+color:white;
+overflow:hidden;
+background: radial-gradient(circle at center,#0c0c10,#050507);
+}
+
+body::after{
+content:"";
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:
+
+radial-gradient(circle at 30% 40%,#ffd50033 0px,transparent 80px),
+radial-gradient(circle at 70% 60%,#8b5cf633 0px,transparent 100px),
+radial-gradient(circle at 50% 20%,#6d28ff33 0px,transparent 120px);
+
+animation:float 12s infinite alternate;
+z-index:-1;
+pointer-events:none;
+}
+
+@keyframes float{
+
+0%{transform:translateY(0px)}
+100%{transform:translateY(-60px)}
+
+}
+
+
+/* HERO */
+
+.hero{
+
+position:relative;
+width:100%;
+height:100vh;
+overflow:hidden;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+text-align:center;
+
+}
+
+/* مرکز صفحه */
+.center-stack{
+position: relative;
+top: 43%;
+left: 18%;
+transform: translate(-50%, -50%);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+gap: 10px;
+z-index: 60;
+margin-top: 0;
+width: 100%;
+max-width: 420px;
+}
+
+/* سمت راست Features */
+
+.features{
+
+position:absolute;
+right:40px;
+top:50%;
+
+transform:translateY(-50%);
+
+display:flex;
+flex-direction:column;
+
+gap:14px;
+
+width:260px;
+
+}
+
+/* کارت‌ها */
+
+.feature-card{
+
+background:rgba(255,255,255,0.05);
+border:1px solid rgba(255,255,255,0.08);
+
+border-radius:14px;
+padding:16px;
+
+cursor:pointer;
+
+transition:0.35s;
+
+text-align:right;
+
+}
+
+.feature-card:hover{
+
+transform:translateX(-10px) scale(1.05);
+
+border-color:var(--gold);
+
+box-shadow:0 0 25px rgba(255,213,0,0.35);
+
+}
+
+.feature-desc{
+
+display:none;
+font-size:13px;
+margin-top:6px;
+opacity:0.8;
+
+}
+
+.feature-card:hover .feature-desc{
+
+display:block;
+
+}
+
+/* logo */
+
+.logo{
+
+font-size:42px;
+font-weight:800;
+letter-spacing:6px;
+
+background:linear-gradient(90deg,var(--gold),var(--violet));
+
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+margin-bottom:20px;
+
+}
+
+.ars-floating-logo {
+    position: fixed;
+    top: 25%; /* یک‌سوم بالایی */
+    left: 15%; /* یک‌سوم سمت چپ - ست شده با فوتر */
+    transform: none;
+    z-index: 15;
+    text-align: left; /* تراز به چپ */
+    pointer-events: all; /* برای افکت موس */
+    display: flex;
+    flex-direction: column;
+}
+
+.tagline{
+
+opacity:0.8;
+font-size:18px;
+margin-bottom:50px;
+
+}
+
+
+/* login card */
+
+.login-card{
+width:380px; /* کمی جمع‌وجورتر */
+max-width:90%;
+background: rgba(255, 255, 255, 0.02);
+backdrop-filter: blur(30px);
+border: 1px solid rgba(255, 213, 0, 0.2); /* حاشیه طلایی ملایم */
+border-radius: 28px;
+padding: 30px;
+box-shadow: 0 25px 50px rgba(0,0,0,0.4), inset 0 0 15px rgba(255,255,255,0.05);
+transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.login-card:hover{
+
+transform:translateY(-6px);
+box-shadow:
+
+0 0 80px #6d28ff55,
+0 0 140px #ffd50033;
+
+}
+
+.login-title{
+
+font-size:26px;
+font-weight:800;
+margin-bottom:30px;
+letter-spacing:1px;
+
+}
+
+.auth-title{
+
+font-family:'Vazirmatn',sans-serif;
+background:linear-gradient(90deg,#ffd500,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+
+text-align:center;
+
+}
+
+
+/* google button */
+
+.google-btn{
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+gap:12px;
+
+width:100%;
+background:white;
+color:black;
+
+border:none;
+outline:none;
+border-radius:10px;
+
+padding:14px;
+
+font-weight:600;
+
+cursor:pointer;
+
+transition:0.3s;
+
+margin-bottom:20px;
+
+}
+
+.google-btn:hover{
+
+transform:scale(1.04);
+
+}
+
+.google-btn{
+border: 1px solid rgba(255,213,0,0.3);
+background: rgba(255,255,255,0.95);
+box-shadow: 0 4px 15px rgba(255,213,0,0.2);
+}
+
+
+
+/* disabled inputs */
+
+.input{
+
+width:100%;
+padding:14px;
+
+background:#ffffff08;
+border:1px solid #ffffff10;
+
+border-radius:8px;
+
+color:white;
+
+margin-bottom:14px;
+
+opacity:1;
+
+}
+
+.disabled{
+
+pointer-events:none;
+
+opacity:0.4;
+
+}
+
+/* divider */
+
+.divider{
+
+display:flex;
+align-items:center;
+gap:10px;
+margin:18px 0;
+
+}
+
+.divider hr{
+
+flex:1;
+border:none;
+height:1px;
+background:#ffffff20;
+
+}
+
+.divider span{
+
+font-size:12px;
+opacity:0.5;
+
+}
+/* signup button */
+
+.signup-btn{
+
+width:100%;
+padding:14px;
+
+background:linear-gradient(90deg,var(--purple),var(--violet));
+
+border:none;
+
+border-radius:10px;
+
+color:white;
+
+font-weight:700;
+
+margin-top:8px;
+
+opacity:1;
+
+cursor:pointer;
+
+}
+.signup-btn:disabled{
+opacity:0.7;
+cursor:not-allowed;
+filter:grayscale(0.1);
+}
+
+
+/* focus effects */
+
+.input:focus{
+outline:none;
+border-color:rgba(255,213,0,0.45);
+box-shadow:0 0 0 3px rgba(255,213,0,0.08);
+}
+
+.google-btn:focus,
+.signup-btn:focus{
+outline:none;
+box-shadow:0 0 0 3px rgba(255,213,0,0.12);
+}
+
+
+.feature-title{
+
+font-weight:700;
+
+margin-bottom:10px;
+
+}
+
+.feature-desc{
+
+font-size:14px;
+
+opacity:0.7;
+
+}
+
+
+/* trust bar */
+
+.trust{
+
+margin-top:90px;
+
+display:flex;
+
+justify-content:center;
+
+gap:40px;
+
+flex-wrap:wrap;
+
+opacity:0.7;
+
+font-size:14px;
+
+}
+/* =========================
+   MOBILE MODE
+========================= */
+@media (max-width:768px){
+
+/* =================================
+   ARS MOBILE POSITION ENGINE
+   Range Control: -100 → +100
+================================= */
+
+:root{
+
+/* LOGO CONTROL */
+
+--logo-x:50;   /* چپ و راست  (-100 → 100) */
+--logo-y:0; /* بالا پایین (-100 → 100) */
+
+
+/* LOGIN CONTROL */
+
+--login-x:0;  /* چپ و راست  (-100 → 100) */
+--login-y:0; /* بالا پایین (-100 → 100) */
+
+}
+
+
+/* ============================= */
+
+.hero{
+position:relative;
+height:100dvh;
+overflow:hidden;
+padding:0;
+}
+
+
+/* مخفی کردن features */
+
+.features{
+display:none;
+}
+
+
+/* =================================
+   LOGO POSITION SYSTEM
+================================= */
+
+.arsFocusWrap{
+
+position:absolute !important;
+
+top:13% !important;
+left:50% !important;
+
+transform:
+translateX(calc(-50% + (var(--logo-x) * 1vw)))
+translateY(calc(-50% + (var(--logo-y) * 1vh)));
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+width:100%;
+
+z-index:5;
+
+
+}
+
+
+/* =================================
+   LOGIN POSITION SYSTEM
+================================= */
+
+.center-stack{
+
+position:absolute;
+
+top:50%;
+left:50%;
+
+transform:
+translateX(calc(-50% + (var(--login-x) * 1vw)))
+translateY(calc(-50% + (var(--login-y) * 1vh)));
+
+width:100%;
+max-width:420px;
+
+display:flex;
+justify-content:center;
+
+z-index:60;
+
+}
+
+
+/* ================================= */
+
+.login-card{
+width:92%;
+max-width:380px;
+margin:auto;
+}
+
+
+/* ================================= */
+
+.ars-part{
+font-size:38px;
+}
+
+.system-part{
+font-size:20px;
+letter-spacing:6px;
+margin-top:-13px;
+}
+
+
+/* ================================= */
+
+.arsSystemStatus{
+position:fixed;
+top:12px;
+right:18px;
+z-index:100;
+}
+.ars-part{
+font-size:90px !important;
+}
+
+.system-part{
+font-size:18px !important;
+letter-spacing:4px !important;
+display:none !important;
+}
+
+#arsSystem{
+filter:none !important;
+text-shadow:none !important;
+}
+
+.arsCoreGlow{
+display:none !important;
+}
+.arsCore,
+.arsCoreGlow,
+.arsRing,
+.arsSweep,
+.ai-radar-ring{
+display:none !important;
+}
+
+}
+
+
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+
+<h1 class="logo" id="arsSystem">
+    <span class="ars-part">ARS</span>
+    <span class="system-part">SYSTEM</span>
+</h1>
+
+<div class="center-stack">
+<div class="login-card" dir="ltr">
+
+
+<div class="login-title auth-title">
+احراز هویت
+</div>
+
+<button type="button" class="google-btn" id="googleLogin" aria-label="ورود با گوگل">
+
+<svg width="18" height="18" viewBox="0 0 48 48">
+<path fill="#EA4335" d="M24 9.5c3.3 0 6.3 1.2 8.6 3.2l6.4-6.4C34.6 2.5 29.6 0 24 0 14.8 0 6.9 5.5 3.3 13.4l7.5 5.8C12.6 13.6 17.8 9.5 24 9.5z"/>
+<path fill="#4285F4" d="M46.1 24.5c0-1.7-.1-2.9-.4-4.2H24v8h12.4c-.3 2-1.6 5-4.5 7l7 5.5c4.1-3.8 7.2-9.5 7.2-16.3z"/>
+<path fill="#FBBC05" d="M10.8 28.7c-.5-1.5-.8-3.1-.8-4.7s.3-3.2.8-4.7l-7.5-5.8C1.2 16.6 0 20.2 0 24s1.2 7.4 3.3 10.5l7.5-5.8z"/>
+<path fill="#34A853" d="M24 48c6.5 0 12-2.1 16-5.7l-7-5.5c-2 1.4-4.6 2.4-9 2.4-6.2 0-11.4-4.1-13.3-9.7l-7.5 5.8C6.9 42.5 14.8 48 24 48z"/>
+</svg>
+
+ورود با Google
+
+</button>
+
+<input class="input" id="ars-email" type="email" placeholder="ایمیل" autocomplete="email" />
+<input class="input" id="ars-password" type="password" placeholder="رمز عبور" autocomplete="new-password" />
+
+<div class="divider">
+
+<hr>
+
+<span>یا</span>
+
+<hr>
+
+</div>
+
+<button class="signup-btn" id="emailLoginBtn">
+ورود به سیستم
+</button>
+
+<div style="margin-top:12px;text-align:center;font-size:13px;opacity:0.8;">
+<a href="#" id="forgotPassword" style="color:#ffd500;text-decoration:none;">
+رمز عبور را فراموش کرده‌اید؟
+</a>
+</div>
+
+<button class="signup-btn" id="emailSignupBtn" style="margin-top:10px;background:linear-gradient(90deg,#ffd500,#ffea00);color:black;">
+ثبت نام
+</button>
+
+</div>
+
+</div>
+
+<div class="features">
+
+<div class="feature-card">
+
+<div class="feature-title">
+هوش مصنوعی تحلیل بازار
+</div>
+
+<div class="feature-desc">
+پردازش داده‌های بازار با الگوریتم‌های یادگیری ماشین
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-title">
+ردیابی Smart Money
+</div>
+
+<div class="feature-desc">
+شناسایی جریان نقدینگی نهادهای بزرگ بازار
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-title">
+مانیتور فعالیت نهنگ‌ها
+</div>
+
+<div class="feature-desc">
+ردیابی سفارشات بزرگ و حرکات سرمایه سنگین
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-title">
+تحلیل چند تایم فریم
+</div>
+
+<div class="feature-desc">
+ترکیب داده‌های چند بازه زمانی برای تصمیم دقیق
+</div>
+
+</div>
+
+
+<div class="feature-card">
+
+<div class="feature-title">
+سیگنال‌های پیش‌بینی AI
+</div>
+
+<div class="feature-desc">
+پیش‌بینی حرکات بازار با مدل‌های هوش مصنوعی
+</div>
+
+</div>
+
+</div>
+
+
+
+</section>
+<!-- ===========================
+     FIREBASE SDK
+=========================== -->
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+
+/* ===========================
+   ARS LOADING OVERLAY
+=========================== */
+
+const loading = document.createElement("div")
+
+loading.style.position="fixed"
+loading.style.top="0"
+loading.style.left="0"
+loading.style.width="100%"
+loading.style.height="100%"
+loading.style.background="rgba(10,5,30,0.95)"
+loading.style.display="flex"
+loading.style.alignItems="center"
+loading.style.justifyContent="center"
+loading.style.flexDirection="column"
+loading.style.zIndex="9999"
+loading.style.opacity="0"
+loading.style.pointerEvents="none"
+loading.style.transition="0.4s"
+
+loading.innerHTML=`
+
+<div style="font-size:32px;font-weight:800;letter-spacing:2px;
+background:linear-gradient(90deg,#ffd500,#8b5cf6);
+-webkit-background-clip:text;
+color:transparent;
+margin-bottom:20px;">
+ARS SYSTEM
+</div>
+
+<div style="width:60px;height:60px;
+border:3px solid rgba(255,255,255,0.1);
+border-top:3px solid #ffd500;
+border-radius:50%;
+animation:arsSpin 1s linear infinite;">
+</div>
+
+<style>
+@keyframes arsSpin{
+0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}
+/* =========================
+   MOBILE FIX
+========================= */
+
+</style>
+
+`
+
+document.body.appendChild(loading)
+
+
+function showLoading(){
+
+loading.style.opacity="1"
+loading.style.pointerEvents="all"
+
+}
+
+function hideLoading(){
+
+loading.style.opacity="0"
+loading.style.pointerEvents="none"
+
+}
+
+
+/* ===========================
+   FIREBASE CONFIG
+=========================== */
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA8uxWsvCcaj94MNmdlENvXe6DnvI21_u0",
+  authDomain: "ars-system-25319.firebaseapp.com",
+  projectId: "ars-system-25319",
+  storageBucket: "ars-system-25319.firebasestorage.app",
+  messagingSenderId: "153129390194",
+  appId: "1:153129390194:web:4fdbf3c51221e4345a72eb"
+};
+
+// Initialize Firebase (فقط یک بار!)
+firebase.initializeApp(firebaseConfig);
+
+// Auth Instance
+const auth = firebase.auth();
+
+// Firestore Database
+const db = firebase.firestore();
+
+
+// Google Provider
+const provider = new firebase.auth.GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account"
+})
+
+/* ===========================
+   GOOGLE LOGIN HANDLER
+=========================== */
+
+const googleBtn = document.getElementById("googleLogin")
+let googleLoginInProgress = false
+
+googleBtn.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter" || e.key === " "){
+    e.preventDefault()
+    googleBtn.click()
+  }
+})
+
+googleBtn.addEventListener("click", async ()=>{
+
+if(googleLoginInProgress) return
+googleLoginInProgress = true
+
+try{
+
+googleBtn.style.pointerEvents = "none"
+googleBtn.style.opacity = "0.7"
+
+showLoading()
+
+const result = await auth.signInWithPopup(provider)
+const user = result.user
+
+console.log("ARS LOGIN:", user.email)
+console.log("در انتظار تأیید وضعیت ورود گوگل...")
+
+}
+catch(err){
+
+console.error(err)
+
+hideLoading()
+
+let googleError = "خطا در ورود با گوگل"
+
+switch(err.code){
+  case "auth/popup-closed-by-user":
+    googleError = "پنجره ورود توسط کاربر بسته شد"
+    break
+  case "auth/popup-blocked":
+    googleError = "مرورگر پنجره ورود گوگل را مسدود کرده است"
+    break
+  case "auth/cancelled-popup-request":
+    googleError = "درخواست ورود قبلی هنوز در حال پردازش است"
+    break
+  case "auth/network-request-failed":
+    googleError = "خطای شبکه، اتصال اینترنت را بررسی کنید"
+    break
+  default:
+    googleError = "خطا در ورود با گوگل: " + (err.message || "مشکل نامشخص")
+}
+
+alert(googleError)
+
+}
+finally{
+
+googleBtn.style.pointerEvents = "auto"
+googleBtn.style.opacity = "1"
+googleLoginInProgress = false
+
+}
+
+})
+
+
+/* ===========================
+   EMAIL/PASSWORD LOGIN & AUTH
+=========================== */
+
+const emailBtn = document.getElementById("emailLoginBtn")
+const emailInput = document.getElementById("ars-email")
+const passwordInput = document.getElementById("ars-password")
+const signupBtn = document.getElementById("emailSignupBtn")
+const forgotBtn = document.getElementById("forgotPassword")
+
+// تابع ثبت‌نام و ارسال لینک تایید ایمیل
+async function handleEmailSignup(){
+  const email = emailInput.value.trim()
+  const password = passwordInput.value.trim()
+
+  if(!email || !password){
+    alert("ایمیل و رمز عبور را وارد کنید")
+    return
+  }
+
+  try{
+    signupBtn.disabled = true
+    showLoading()
+
+    const result = await auth.createUserWithEmailAndPassword(email, password)
+    const user = result.user
+
+    await user.sendEmailVerification()
+    await auth.signOut()
+
+    hideLoading()
+    alert("ثبت‌نام انجام شد. لینک تأیید به ایمیل شما ارسال شد. لطفاً ایمیل خود را تأیید کنید و سپس وارد شوید.")
+
+    emailInput.value = ""
+    passwordInput.value = ""
+    console.log("اکانت ساخته شد و ایمیل تأیید ارسال شد")
+  } catch(err){
+    hideLoading()
+    let msg = "خطا در ثبت نام"
+    switch(err.code){
+      case "auth/email-already-in-use":
+        msg = "این ایمیل قبلاً ثبت شده"
+        break
+      case "auth/weak-password":
+        msg = "رمز عبور باید حداقل ۶ کاراکتر باشد"
+        break
+      case "auth/invalid-email":
+        msg = "ایمیل معتبر نیست"
+        break
+      default:
+        msg = "خطا: " + err.message
+    }
+    alert(msg)
+  } finally{
+    signupBtn.disabled = false
+  }
+}
+
+// تابع ورود با ایمیل و بررسی وضعیت تایید ایمیل
+async function handleEmailLogin(){
+  if(emailBtn.disabled) return
+
+  const email = emailInput.value.trim()
+  const password = passwordInput.value.trim()
+
+  if(!email || !password){
+    alert("لطفاً ایمیل و رمز عبور را وارد کنید")
+    return
+  }
+
+  try{
+    emailBtn.disabled = true
+    emailBtn.style.opacity = "0.7"
+    emailBtn.style.cursor = "wait"
+    showLoading()
+
+    const result = await auth.signInWithEmailAndPassword(email, password)
+    const user = result.user
+
+    if(!user.emailVerified){
+      await auth.signOut()
+      hideLoading()
+      alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا لینک ارسال‌شده به ایمیل خود را باز کنید.")
+      return
+    }
+
+    console.log("ورود موفقیت‌آمیز با ایمیل تاییدشده")
+  } catch(err){
+    console.error(err)
+    hideLoading()
+    let errorMessage = "خطا در ورود"
+    switch(err.code){
+      case "auth/invalid-email":
+        errorMessage = "ایمیل وارد شده معتبر نیست"
+        break
+      case "auth/user-disabled":
+        errorMessage = "این حساب کاربری غیرفعال شده است"
+        break
+      case "auth/user-not-found":
+        errorMessage = "کاربری با این ایمیل پیدا نشد"
+        break
+      case "auth/wrong-password":
+      case "auth/invalid-login-credentials":
+        errorMessage = "ایمیل یا رمز عبور اشتباه است"
+        break
+      case "auth/too-many-requests":
+        errorMessage = "تعداد تلاش‌ها زیاد بوده، کمی بعد دوباره امتحان کنید"
+        break
+      case "auth/network-request-failed":
+        errorMessage = "خطای شبکه، اتصال اینترنت را بررسی کنید"
+        break
+      default:
+        errorMessage = "خطا: " + (err.message || "مشکل نامشخص")
+    }
+    alert(errorMessage)
+  } finally{
+    emailBtn.disabled = false
+    emailBtn.style.opacity = "1"
+    emailBtn.style.cursor = "pointer"
+  }
+}
+/* ===========================
+   PASSWORD RESET FUNCTION
+=========================== */
+
+async function handlePasswordReset(){
+
+const email = emailInput.value.trim()
+
+if(!email){
+alert("ابتدا ایمیل خود را وارد کنید")
+return
+}
+
+try{
+
+showLoading()
+
+await auth.sendPasswordResetEmail(email)
+
+hideLoading()
+
+alert("لینک بازیابی رمز عبور به ایمیل شما ارسال شد")
+
+}catch(err){
+
+hideLoading()
+
+let msg="خطا در ارسال ایمیل"
+
+switch(err.code){
+
+case "auth/user-not-found":
+msg="کاربری با این ایمیل پیدا نشد"
+break
+
+case "auth/invalid-email":
+msg="ایمیل معتبر نیست"
+break
+
+case "auth/network-request-failed":
+msg="خطای اینترنت"
+break
+
+default:
+msg="خطا: "+err.message
+
+}
+
+alert(msg)
+
+}
+
+}
+/* ======================================================
+   ARS EVENT LISTENERS - FINAL FIXED BY GapGPT
+====================================================== */
+
+// ۱. اتصال دکمه ثبت نام
+signupBtn.addEventListener("click", handleEmailSignup);
+
+// ۲. اتصال دکمه ورود (این همان خطی بود که مشکل داشت)
+emailBtn.addEventListener("click", handleEmailLogin);
+
+forgotBtn.addEventListener("click",(e)=>{
+e.preventDefault()
+handlePasswordReset()
+})
+
+// ۳. فعال کردن دکمه اینتر (Enter) روی فیلد رمز عبور برای ورود سریع
+passwordInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleEmailLogin();
+  }
+});
+
+// ۴. فعال کردن دکمه اینتر (Enter) روی فیلد ایمیل
+emailInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    handleEmailLogin();
+  }
+});
+
+/* ====================================================== */
+
+
+
+/* ===========================
+   AUTO LOGIN & FIRESTORE SYNC
+=========================== */
+
+auth.onAuthStateChanged(async (user) => {
+  if(!user){
+    hideLoading()
+    return
+  }
+
+  const isDashboardPage = window.location.pathname.includes("dashboard.html")
+  const providerId = user.providerData?.[0]?.providerId || "unknown"
+  const isEmailPassword = providerId === "password"
+
+  // اگر روش ورود ایمیل/پسورد بود ولی هنوز تایید نشده بود، خارج شود
+  if(isEmailPassword && !user.emailVerified){
+    hideLoading()
+    await auth.signOut()
+    alert("ایمیل شما هنوز تأیید نشده است. لطفاً ابتدا ایمیل خود را تأیید کنید.")
+    return
+  }
+
+  // فرآیند همگام‌سازی با فایراستور و انتقال کاربر
+  if(!isDashboardPage){
+    showLoading()
+    db.collection("users").doc(user.uid).set({
+      email: user.email || "",
+      name: user.displayName || "",
+      uid: user.uid,
+      provider: providerId,
+      emailVerified: !!user.emailVerified,
+      lastLogin: firebase.firestore.FieldValue.serverTimestamp(),
+      role: "free"
+    }, {merge: true})
+    .then(()=>{
+      console.log("اطلاعات کاربر با موفقیت در فایراستور سینک شد.");
+      setTimeout(()=>{
+        window.location.href = "dashboard.html"
+      }, 400)
+    })
+    .catch(err => {
+      console.error("خطا در ذخیره‌سازی فایراستور:", err)
+      // در صورت بروز خطا در دیتابیس نیز کاربر را ریدایرکت می‌کنیم تا جریان تجربه کاربری قطع نشود
+      window.location.href = "dashboard.html"
+    })
+  }
+})
+
+</script>
+<script>
+
+/* =====================================================
+   ARS AI CURSOR ENGINE — SUPER ELITE VERSION
+===================================================== */
+
+if(window.matchMedia("(max-width:768px)").matches){
+return
+}
+
+/* ---------- CREATE CURSOR ---------- */
+
+const cursor = document.createElement("div")
+cursor.style.position="fixed"
+cursor.style.width="10px"
+cursor.style.height="10px"
+cursor.style.borderRadius="50%"
+cursor.style.background="#ffd500"
+cursor.style.boxShadow="0 0 14px #ffd500,0 0 30px #ffd500,0 0 60px rgba(255,213,0,0.6)"
+cursor.style.pointerEvents="none"
+cursor.style.zIndex="9999"
+cursor.style.left="0px"
+cursor.style.top="0px"
+cursor.style.transform="translate(-50%,-50%)"
+cursor.style.transition="box-shadow 0.2s ease"
+
+document.body.appendChild(cursor)
+
+
+
+/* ---------- CREATE AURA ---------- */
+
+const aura = document.createElement("div")
+aura.style.position="fixed"
+aura.style.width="120px"
+aura.style.height="120px"
+aura.style.borderRadius="50%"
+aura.style.pointerEvents="none"
+aura.style.zIndex="9998"
+aura.style.background="radial-gradient(circle, rgba(139,92,246,0.25), rgba(139,92,246,0.12), transparent)"
+aura.style.left="0px"
+aura.style.top="0px"
+aura.style.transform="translate(-50%,-50%)"
+aura.style.filter="blur(6px)"
+
+document.body.appendChild(aura)
+
+
+
+/* ---------- MOUSE TRACKING ---------- */
+
+let mouseX = window.innerWidth/2
+let mouseY = window.innerHeight/2
+
+document.addEventListener("mousemove",e=>{
+mouseX = e.clientX
+mouseY = e.clientY
+})
+
+
+
+/* ---------- PHYSICS POSITIONS ---------- */
+
+let posX = mouseX
+let posY = mouseY
+
+let auraX = mouseX
+let auraY = mouseY
+
+
+
+/* ---------- SMOOTH MOVEMENT ---------- */
+
+function renderCursor(){
+
+posX += (mouseX - posX) * 0.35
+posY += (mouseY - posY) * 0.35
+
+auraX += (mouseX - auraX) * 0.15
+auraY += (mouseY - auraY) * 0.15
+
+cursor.style.left = posX + "px"
+cursor.style.top = posY + "px"
+
+aura.style.left = auraX + "px"
+aura.style.top = auraY + "px"
+
+requestAnimationFrame(renderCursor)
+
+}
+
+renderCursor()
+
+
+
+/* =====================================================
+   CURSOR ENERGY BOOST ON HOVER
+===================================================== */
+
+const hoverTargets = document.querySelectorAll(
+"button, a, .google-btn, .feature-card"
+)
+
+hoverTargets.forEach(el=>{
+
+el.addEventListener("mouseenter",()=>{
+
+cursor.style.boxShadow=
+"0 0 20px #ffd500,0 0 45px #ffd500,0 0 80px rgba(255,213,0,0.9)"
+
+aura.style.background=
+"radial-gradient(circle, rgba(139,92,246,0.45), rgba(139,92,246,0.2), transparent)"
+
+})
+
+el.addEventListener("mouseleave",()=>{
+
+cursor.style.boxShadow=
+"0 0 14px #ffd500,0 0 30px #ffd500,0 0 60px rgba(255,213,0,0.6)"
+
+aura.style.background=
+"radial-gradient(circle, rgba(139,92,246,0.25), rgba(139,92,246,0.12), transparent)"
+
+})
+
+})
+
+
+
+/* =====================================================
+   MAGNETIC HOVER EFFECT
+===================================================== */
+
+const magneticElements = document.querySelectorAll(
+".google-btn, .feature-card"
+)
+
+magneticElements.forEach(el=>{
+
+el.addEventListener("mousemove",e=>{
+
+const rect = el.getBoundingClientRect()
+
+const relX = e.clientX - rect.left
+const relY = e.clientY - rect.top
+
+const moveX = (relX - rect.width/2) * 0.15
+const moveY = (relY - rect.height/2) * 0.15
+
+el.style.transform =
+`translate(${moveX}px, ${moveY}px)`
+
+})
+
+el.addEventListener("mouseleave",()=>{
+
+el.style.transform="translate(0px,0px)"
+
+})
+
+})
+
+
+
+/* =====================================================
+   CLICK ENERGY PULSE
+===================================================== */
+
+document.addEventListener("mousedown",()=>{
+
+cursor.style.transform="translate(-50%,-50%) scale(0.8)"
+
+})
+
+document.addEventListener("mouseup",()=>{
+
+cursor.style.transform="translate(-50%,-50%) scale(1)"
+
+})
+
+
+
+/* =====================================================
+   AUTO HIDE ON MOBILE
+===================================================== */
+
+if(window.innerWidth < 768){
+
+cursor.style.display="none"
+aura.style.display="none"
+
+}
+
+</script>
+<script>
+
+/* =====================================================
+   ARS VISUAL ENGINE — ULTRA ELITE (FIXED)
+   Safe Scoped Version — No Conflicts
+===================================================== */
+
+(function(){
+
+
+/* =========================
+   GRADIENT CORE
+========================= */
+
+const arsGradientLayer = document.createElement("div")
+
+arsGradientLayer.style.position="fixed"
+arsGradientLayer.style.top="0"
+arsGradientLayer.style.left="0"
+arsGradientLayer.style.width="100%"
+arsGradientLayer.style.height="100%"
+arsGradientLayer.style.pointerEvents="none"
+arsGradientLayer.style.zIndex="-4"
+arsGradientLayer.style.willChange="transform, background"
+
+document.body.appendChild(arsGradientLayer)
+
+let arsGAngle = 0
+
+function animateArsGradient(){
+
+arsGAngle += 0.0015
+
+const x = 50 + Math.sin(arsGAngle)*25
+const y = 50 + Math.cos(arsGAngle)*25
+
+arsGradientLayer.style.background = `
+radial-gradient(circle at ${x}% ${y}%, rgba(109,40,255,0.25), transparent 45%),
+radial-gradient(circle at ${100-x}% ${100-y}%, rgba(139,92,246,0.22), transparent 45%),
+radial-gradient(circle at 50% 50%, rgba(255,213,0,0.08), transparent 65%)
+`
+
+requestAnimationFrame(animateArsGradient)
+
+}
+
+animateArsGradient()
+
+
+
+/* =========================
+   NEURAL GRID
+========================= */
+
+const arsGrid = document.createElement("div")
+
+arsGrid.style.position="fixed"
+arsGrid.style.top="0"
+arsGrid.style.left="0"
+arsGrid.style.width="100%"
+arsGrid.style.height="100%"
+arsGrid.style.pointerEvents="none"
+arsGrid.style.zIndex="-3"
+
+arsGrid.style.background=`
+linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)
+`
+
+arsGrid.style.backgroundSize="90px 90px"
+arsGrid.style.maskImage="radial-gradient(circle at center, black 40%, transparent 80%)"
+
+document.body.appendChild(arsGrid)
+
+
+
+/* =========================
+   PARTICLE CANVAS
+========================= */
+
+const arsParticleCanvas = document.createElement("canvas")
+
+arsParticleCanvas.style.position="fixed"
+arsParticleCanvas.style.top="0"
+arsParticleCanvas.style.left="0"
+arsParticleCanvas.style.pointerEvents="none"
+arsParticleCanvas.style.zIndex="-2"
+
+document.body.appendChild(arsParticleCanvas)
+
+const arsPctx = arsParticleCanvas.getContext("2d")
+
+
+
+function resizeArsCanvas(){
+
+arsParticleCanvas.width = window.innerWidth
+arsParticleCanvas.height = window.innerHeight
+
+}
+
+window.addEventListener("resize",resizeArsCanvas)
+
+resizeArsCanvas()
+
+
+
+/* =========================
+   PARTICLE SYSTEM
+========================= */
+
+const arsParticles = []
+
+const particleCount = window.innerWidth < 768 ? 18 : 60
+
+for(let i=0;i<particleCount;i++){
+
+arsParticles.push({
+
+x:Math.random()*arsParticleCanvas.width,
+y:Math.random()*arsParticleCanvas.height,
+
+vx:(Math.random()-0.5)*0.3,
+vy:(Math.random()-0.5)*0.3,
+
+size:Math.random()*2+1
+
+})
+
+}
+
+
+
+
+function drawArsParticles(){
+
+arsPctx.clearRect(0,0,arsParticleCanvas.width,arsParticleCanvas.height)
+
+arsParticles.forEach(p=>{
+
+p.x += p.vx
+p.y += p.vy
+
+if(p.x<0||p.x>arsParticleCanvas.width) p.vx*=-1
+if(p.y<0||p.y>arsParticleCanvas.height) p.vy*=-1
+
+arsPctx.beginPath()
+arsPctx.arc(p.x,p.y,p.size,0,Math.PI*2)
+
+arsPctx.fillStyle="rgba(255,213,0,0.25)"
+arsPctx.fill()
+
+})
+
+setTimeout(()=>requestAnimationFrame(drawArsParticles),40)
+
+}
+
+drawArsParticles()
+
+
+
+/* =========================
+   LIGHT RAYS
+========================= */
+
+const rayCount = window.innerWidth < 768 ? 0 : 5
+
+for(let i=0;i<rayCount;i++){
+
+const arsRay=document.createElement("div")
+
+arsRay.style.position="fixed"
+arsRay.style.width="2px"
+arsRay.style.height="140vh"
+arsRay.style.left=Math.random()*100+"vw"
+arsRay.style.top="-20vh"
+arsRay.style.opacity="0.05"
+arsRay.style.background="linear-gradient(transparent,#ffd500,transparent)"
+arsRay.style.pointerEvents="none"
+arsRay.style.zIndex="-2"
+arsRay.style.transform="rotate("+(-25+Math.random()*50)+"deg)"
+
+document.body.appendChild(arsRay)
+
+let arsPos=-20
+
+function moveArsRay(){
+
+arsPos += 0.03
+
+if(arsPos>120) arsPos=-20
+
+arsRay.style.top = arsPos+"vh"
+
+requestAnimationFrame(moveArsRay)
+
+}
+
+moveArsRay()
+
+}
+
+
+
+/* =========================
+   ORBITAL RINGS
+========================= */
+
+for(let i=0;i<3;i++){
+
+const arsRing=document.createElement("div")
+
+arsRing.style.position="fixed"
+arsRing.style.width=(350+Math.random()*250)+"px"
+arsRing.style.height=arsRing.style.width
+arsRing.style.borderRadius="50%"
+arsRing.style.border="1px solid rgba(139,92,246,0.18)"
+arsRing.style.pointerEvents="none"
+arsRing.style.zIndex="-1"
+
+arsRing.style.left=(20+Math.random()*60)+"%"
+arsRing.style.top=(20+Math.random()*60)+"%"
+
+document.body.appendChild(arsRing)
+
+let arsAngle=Math.random()*360
+
+function rotateArsRing(){
+
+arsAngle+=0.015
+
+arsRing.style.transform=
+`translate(-50%,-50%) rotate(${arsAngle}deg)`
+
+requestAnimationFrame(rotateArsRing)
+
+}
+
+rotateArsRing()
+
+}
+
+
+
+/* =========================
+   PARALLAX
+========================= */
+
+let arsMouseX = window.innerWidth/2
+let arsMouseY = window.innerHeight/2
+
+document.addEventListener("mousemove",e=>{
+
+arsMouseX=e.clientX
+arsMouseY=e.clientY
+
+})
+
+function arsParallax(){
+
+if(window.innerWidth < 768){
+requestAnimationFrame(arsParallax)
+return
+}
+
+const x = (arsMouseX/window.innerWidth -0.5)*20
+const y = (arsMouseY/window.innerHeight -0.5)*20
+
+arsGradientLayer.style.transform=`translate(${x}px,${y}px)`
+arsGrid.style.transform=`translate(${x*0.5}px,${y*0.5}px)`
+
+requestAnimationFrame(arsParallax)
+
+}
+
+arsParallax()
+
+
+
+/* =========================
+   ENERGY PULSE
+========================= */
+
+setInterval(()=>{
+
+document.body.style.filter="brightness(1.08)"
+
+setTimeout(()=>{
+
+document.body.style.filter="brightness(1)"
+
+},200)
+
+},6000)
+
+
+
+/* =========================
+   PERFORMANCE MODE
+========================= */
+
+document.addEventListener("visibilitychange",()=>{
+
+if(document.hidden){
+
+arsParticles.length=0
+
+}else{
+
+const restoreCount = window.innerWidth < 768 ? 10 : 40
+
+for(let i=0;i<restoreCount;i++){
+
+arsParticles.push({
+
+x:Math.random()*arsParticleCanvas.width,
+y:Math.random()*arsParticleCanvas.height,
+vx:(Math.random()-0.5)*0.3,
+vy:(Math.random()-0.5)*0.3,
+size:Math.random()*2+1
+
+})
+
+}
+
+}
+
+})
+
+
+})()
+
+</script>
+<script>
+
+/* =====================================================
+   ARS INTERACTION ENGINE
+   PART 7 — FINAL (FIXED)
+===================================================== */
+
+
+/* ===============================
+   CHECK GOOGLE BUTTON
+=============================== */
+
+if(typeof googleBtn === "undefined" || !googleBtn){
+console.warn("Google button not found")
+}else{
+
+
+/* ===============================
+   HOVER ENERGY
+=============================== */
+
+googleBtn.addEventListener("mouseenter",()=>{
+
+googleBtn.style.transition="all 0.35s ease"
+
+googleBtn.style.boxShadow =
+"0 0 15px rgba(255,213,0,0.4), 0 0 35px rgba(255,213,0,0.25)"
+
+})
+
+googleBtn.addEventListener("mouseleave",()=>{
+
+googleBtn.style.boxShadow=""
+
+})
+
+
+
+/* ===============================
+   LOGIN PROGRESS RING
+=============================== */
+
+const arsLoginRing = document.createElement("div")
+
+arsLoginRing.style.position="fixed"
+arsLoginRing.style.top="50%"
+arsLoginRing.style.left="50%"
+arsLoginRing.style.width="120px"
+arsLoginRing.style.height="120px"
+arsLoginRing.style.borderRadius="50%"
+arsLoginRing.style.border="2px solid rgba(255,213,0,0.25)"
+arsLoginRing.style.transform="translate(-50%,-50%) scale(0)"
+arsLoginRing.style.pointerEvents="none"
+arsLoginRing.style.zIndex="40"
+
+document.body.appendChild(arsLoginRing)
+
+
+
+/* ===============================
+   LOGIN CLICK EFFECT
+=============================== */
+
+googleBtn.addEventListener("click",()=>{
+
+arsLoginRing.style.transition="transform 0.4s ease, opacity 0.4s"
+
+arsLoginRing.style.transform="translate(-50%,-50%) scale(1)"
+
+arsLoginRing.style.opacity="1"
+
+rotateLoginRing()
+
+})
+
+
+
+/* ===============================
+   ROTATION
+=============================== */
+
+let arsAngle = 0
+
+function rotateLoginRing(){
+
+arsAngle += 6
+
+arsLoginRing.style.borderTopColor="#ffd500"
+
+arsLoginRing.style.transform =
+`translate(-50%,-50%) scale(1) rotate(${arsAngle}deg)`
+
+if(arsAngle < 720){
+
+requestAnimationFrame(rotateLoginRing)
+
+}else{
+
+successBurst()
+
+}
+
+}
+
+
+
+/* ===============================
+   SUCCESS BURST
+=============================== */
+
+function successBurst(){
+
+const burst = document.createElement("div")
+
+burst.style.position="fixed"
+burst.style.top="50%"
+burst.style.left="50%"
+burst.style.width="200px"
+burst.style.height="200px"
+burst.style.borderRadius="50%"
+burst.style.pointerEvents="none"
+burst.style.zIndex="50"
+
+burst.style.background =
+"radial-gradient(circle, rgba(255,213,0,0.4), transparent 70%)"
+
+burst.style.transform="translate(-50%,-50%) scale(0)"
+
+document.body.appendChild(burst)
+
+burst.style.transition="transform 0.6s ease, opacity 0.6s"
+
+requestAnimationFrame(()=>{
+
+burst.style.transform="translate(-50%,-50%) scale(1.8)"
+burst.style.opacity="0"
+
+})
+
+setTimeout(()=>{
+
+burst.remove()
+arsLoginRing.style.transform="translate(-50%,-50%) scale(0)"
+
+},700)
+
+}
+
+}
+
+</script>
+<script>
+
+/* =========================================
+   ARS HEADER — SYSTEM STATUS
+========================================= */
+
+const arsHeader=document.createElement("div")
+
+arsHeader.style.position="fixed"
+arsHeader.style.top="40px"
+arsHeader.style.right="4%"
+arsHeader.style.width="auto"
+arsHeader.style.display="flex"
+arsHeader.style.justifyContent="center"
+arsHeader.style.zIndex="100"
+arsHeader.innerHTML=`
+
+<div class="arsSystemStatus">
+
+<span class="arsDot"></span>
+
+System Online
+
+</div>
+
+`
+
+document.body.prepend(arsHeader)
+
+
+
+/* =========================================
+   ARS FOOTER — CONTACT AREA
+========================================= */
+
+const arsFooter=document.createElement("div")
+
+arsFooter.style.position="fixed"
+arsFooter.style.bottom="40px"
+
+if(window.innerWidth < 768){
+
+arsFooter.style.left="50%"
+arsFooter.style.transform="translateX(-50%)"
+
+}else{
+
+arsFooter.style.left="17.8%"   // قبلاً 10% بود
+arsFooter.style.transform="translateX(-50%)"
+
+}
+
+arsFooter.style.textAlign="center"
+arsFooter.style.boxSizing="border-box"
+arsFooter.style.opacity="0.9"
+
+arsFooter.innerHTML=`
+
+<div class="arsFooterWrap">
+
+<div class="arsFooterBrand">
+
+ARSHAM STORM
+
+</div>
+
+<div class="arsFooterLinks">
+
+<a href="https://t.me/ARSHAMSTORM" target="_blank">Telegram</a>
+
+<a href="https://instagram.com/ARSHAMSTORM" target="_blank">Instagram</a>
+
+<a href="mailto:ARSHAMSTORM@gmail.com">Email</a>
+
+</div>
+
+<div class="arsFooterCopy">
+
+© ARSHAM STORM
+
+</div>
+
+</div>
+
+`
+
+document.body.appendChild(arsFooter)
+
+
+
+/* =========================================
+   STYLES
+========================================= */
+
+const style=document.createElement("style")
+
+style.innerHTML=`
+
+/* ---------- system status ---------- */
+
+.arsSystemStatus{
+
+font-family: "Space Grotesk", system-ui, sans-serif;
+
+font-size:14px;
+
+color:#9ee6a0;
+
+display:flex;
+
+align-items:center;
+
+gap:8px;
+
+letter-spacing:0.4px;
+
+font-weight:500;
+
+}
+
+.arsDot{
+
+width:8px;
+
+height:8px;
+
+background:#2cff7b;
+
+border-radius:50%;
+
+box-shadow:0 0 10px #2cff7b;
+
+display:inline-block;
+
+animation:arsPulse 2s infinite;
+
+}
+
+@keyframes arsPulse{
+
+0%{box-shadow:0 0 4px #2cff7b}
+
+50%{box-shadow:0 0 14px #2cff7b}
+
+100%{box-shadow:0 0 4px #2cff7b}
+
+}
+
+
+
+/* ---------- footer ---------- */
+
+.arsFooterWrap {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+.arsFooterBrand {
+    font-size: 18px;
+    letter-spacing: 3px;
+    margin-bottom: 12px;
+    color: white;
+    font-weight: 800;
+}
+/* این خط کل فوتر رو می‌بره وسطِ یک‌سوم سمت چپ */
+`
+
+document.head.appendChild(style)
+
+</script>
+<script>
+
+/* ======================================================
+   PART 9
+   ARS NEURAL BACKGROUND + AI CORE
+====================================================== */
+
+
+/* ================================
+   CANVAS BACKGROUND
+================================ */
+if(window.innerWidth < 768){
+console.log("Mobile mode: neural engine disabled")
+document.body.style.background="radial-gradient(circle at center,#0c0c10,#050507)";
+}else{
+
+const neuralCanvas = document.createElement("canvas")
+
+neuralCanvas.id = "arsNeural"
+
+neuralCanvas.style.position = "fixed"
+neuralCanvas.style.top = "0"
+neuralCanvas.style.left = "0"
+neuralCanvas.style.width = "100%"
+neuralCanvas.style.height = "100%"
+neuralCanvas.style.zIndex = "-1"
+neuralCanvas.style.pointerEvents = "none"
+
+document.body.appendChild(neuralCanvas)
+
+const neuralCtx = neuralCanvas.getContext("2d")
+
+function resizeNeuralCanvas(){
+
+neuralCanvas.width = window.innerWidth
+neuralCanvas.height = window.innerHeight
+
+}
+
+resizeNeuralCanvas()
+
+window.addEventListener("resize", resizeNeuralCanvas)
+
+
+
+/* ================================
+   PARTICLE SYSTEM
+================================ */
+
+const neuralParticles = []
+
+const particleCount = window.innerWidth < 768 ? 20 : 90
+
+for(let i=0;i<particleCount;i++){
+
+neuralParticles.push({
+
+x:Math.random()*neuralCanvas.width,
+y:Math.random()*neuralCanvas.height,
+
+vx:(Math.random()-0.5)*0.4,
+vy:(Math.random()-0.5)*0.4,
+
+size:Math.random()*2+1
+
+})
+
+}
+
+
+
+/* ================================
+   MOUSE REACTION
+================================ */
+
+let neuralMouse = {x:0,y:0}
+
+window.addEventListener("mousemove",e=>{
+
+neuralMouse.x = e.clientX
+neuralMouse.y = e.clientY
+
+})
+
+
+
+/* ================================
+   DRAW LOOP
+================================ */
+
+function animateNeural(){
+
+neuralCtx.clearRect(0,0,neuralCanvas.width,neuralCanvas.height)
+
+for(let p of neuralParticles){
+
+p.x += p.vx
+p.y += p.vy
+
+if(p.x < 0 || p.x > neuralCanvas.width) p.vx *= -1
+if(p.y < 0 || p.y > neuralCanvas.height) p.vy *= -1
+
+
+const dx = p.x - neuralMouse.x
+const dy = p.y - neuralMouse.y
+
+const dist = Math.sqrt(dx*dx + dy*dy)
+
+if(dist < 120){
+
+p.x += dx * 0.02
+p.y += dy * 0.02
+
+}
+
+
+neuralCtx.beginPath()
+
+neuralCtx.arc(p.x,p.y,p.size,0,Math.PI*2)
+
+neuralCtx.fillStyle="rgba(255,213,0,0.8)"
+
+neuralCtx.fill()
+
+}
+
+requestAnimationFrame(animateNeural)
+
+}
+
+animateNeural()
+
+
+
+/* ======================================================
+   ARS CORE GLOW
+====================================================== */
+
+const arsTitle = document.querySelector("#arsSystem")
+
+if(arsTitle){
+
+arsTitle.style.position = "relative"
+arsTitle.style.zIndex = "2"
+
+const core = document.createElement("div")
+
+core.className = "arsCore"
+
+arsTitle.appendChild(core)
+
+}
+
+
+
+/* ================================
+   STYLES
+================================ */
+
+const arsNeuralStyle = document.createElement("style")
+
+arsNeuralStyle.innerHTML = `
+
+body{
+background:radial-gradient(circle at center,#0c0c10,#050507);
+overflow-x:hidden;
+}
+
+#arsSystem{
+font-size:64px;
+letter-spacing:8px;
+font-weight:600;
+color:white;
+text-align:center;
+position:relative;
+}
+
+.arsCore{
+position:absolute;
+left:50%;
+top:50%;
+width:260px;
+height:260px;
+transform:translate(-50%,-50%);
+border-radius:50%;
+background:radial-gradient(circle,rgba(255,213,0,0.18),transparent 70%);
+filter:blur(40px);
+animation:arsCorePulse 4s ease-in-out infinite;
+pointer-events:none;
+}
+
+@keyframes arsCorePulse{
+
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:0.7;
+}
+
+50%{
+transform:translate(-50%,-50%) scale(1.25);
+opacity:1;
+}
+
+100%{
+transform:translate(-50%,-50%) scale(1);
+opacity:0.7;
+}
+
+}
+
+`
+
+document.head.appendChild(arsNeuralStyle)
+
+}
+
+</script>
+
+<script>
+
+/* =========================================================
+   PART 10
+   ARS CORE FOCUS SYSTEM
+   Advanced Visual Focus Engine
+========================================================= */
+
+const arsFocusTitle = document.querySelector("#arsSystem")
+
+if(arsFocusTitle){
+
+/* ===============================
+   WRAP TITLE
+=============================== */
+
+const wrap = document.createElement("div")
+wrap.className = "arsFocusWrap"
+
+arsFocusTitle.parentNode.insertBefore(wrap, arsFocusTitle)
+wrap.appendChild(arsFocusTitle)
+
+
+
+/* ===============================
+   CREATE RINGS
+=============================== */
+
+const ring1 = document.createElement("div")
+ring1.className = "arsRing ring1"
+
+const ring2 = document.createElement("div")
+ring2.className = "arsRing ring2"
+
+const glow = document.createElement("div")
+glow.className = "arsCoreGlow"
+
+wrap.appendChild(ring1)
+wrap.appendChild(ring2)
+wrap.appendChild(glow)
+
+
+
+/* ===============================
+   MOUSE PARALLAX
+=============================== */
+
+window.addEventListener("mousemove",e=>{
+
+const x=(e.clientX/window.innerWidth)-0.5
+const y=(e.clientY/window.innerHeight)-0.5
+
+ring1.style.transform=`translate(-50%,-50%) rotate(${x*20}deg)`
+ring2.style.transform=`translate(-50%,-50%) rotate(${y*40}deg)`
+
+})
+
+
+
+/* ===============================
+   LIGHT SWEEP
+=============================== */
+
+const sweep = document.createElement("div")
+sweep.className = "arsSweep"
+
+arsFocusTitle.appendChild(sweep)
+
+
+
+/* ===============================
+   STYLES
+=============================== */
+
+const arsFocusStyle = document.createElement("style")
+
+arsFocusStyle.innerHTML=`
+
+/* کانتینر اصلی لوگو - تراز شده بر اساس مرکز هندسی */
+.arsFocusWrap {
+    position: fixed;
+    top: 43%; /* کمی بالاتر از مرکز برای دید بهتر */
+    left: 18%; /* تنظیم شده برای ایجاد فضای بصری مناسب در سمت چپ */
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 14;
+    overflow: hidden; /* جلوگیری از بیرون زدن افکت اسکن روی دکمه گوگل */
+}
+
+#arsSystem {
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+padding-right: 0.15em;
+letter-spacing: 15px;
+overflow:hidden;
+position:relative;
+}
+
+.ars-part {
+    font-size: 110px; /* بزرگتر و قدرتمندتر */
+    font-weight: 900;
+    background: linear-gradient(to bottom, #ffffff, #ffd500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 15px rgba(255, 213, 0, 0.3));
+}
+
+.system-part {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: 12px;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    min-height: 30px;
+}
+
+/* افکت اسکنر محصور شده */
+.arsSweep {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: -100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    animation: sweepCorrect 5s infinite;
+}
+
+@keyframes sweepCorrect {
+    0% { left: -100%; }
+    30% { left: 100%; }
+    100% { left: 100%; }
+}
+
+/* نرم و طبیعی نفس کشیدن */
+@keyframes arsCoreBreath{
+
+    0%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0.6;
+    }
+
+    50%{
+        transform:translate(-50%,-50%) scale(1.15);
+        opacity:0.9;
+    }
+
+    100%{
+        transform:translate(-50%,-50%) scale(1);
+        opacity:0.6;
+    }
+}
+.arsRing{
+position:absolute;
+border-radius:50%;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+pointer-events:none;
+}
+
+.ring1{
+width:420px;
+height:420px;
+border:1px solid rgba(255,213,0,0.25);
+animation:ringSpin 18s linear infinite;
+}
+
+.ring2{
+width:520px;
+height:520px;
+border:1px solid rgba(255,213,0,0.15);
+animation:ringSpinReverse 26s linear infinite;
+}
+
+.arsSweep{
+position:absolute;
+left:-40%;
+top:0;
+width:40%;
+height:100%;
+background:linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,0.6),
+transparent
+);
+transform:skewX(-20deg);
+animation:sweep 6s infinite;
+}
+
+@keyframes ringSpin{
+0%{transform:translate(-50%,-50%) rotate(0deg)}
+100%{transform:translate(-50%,-50%) rotate(360deg)}
+}
+
+@keyframes ringSpinReverse{
+0%{transform:translate(-50%,-50%) rotate(360deg)}
+100%{transform:translate(-50%,-50%) rotate(0deg)}
+}
+
+@keyframes coreBreath{
+0%{opacity:0.6; transform:scale(1)}
+50%{opacity:1; transform:scale(1.2)}
+100%{opacity:0.6; transform:scale(1)}
+}
+
+@keyframes sweep{
+0%{left:-40%}
+100%{left:140%}
+}
+
+`
+
+document.head.appendChild(arsFocusStyle)
+
+}
+
+/* ======================================
+   ARS LOGO INTERACTION (STEP 5)
+====================================== */
+
+document.addEventListener('mousemove', (e) => {
+
+const logo = document.querySelector('#arsSystem')
+const glow = document.querySelector('.arsCoreGlow')
+
+if(!logo || !glow) return
+
+const rect = logo.getBoundingClientRect()
+
+const centerX = rect.left + rect.width/2
+const centerY = rect.top + rect.height/2
+
+const dist = Math.hypot(
+e.clientX - centerX,
+e.clientY - centerY
+)
+
+if(dist < 300){
+
+const power = (300 - dist) / 300
+
+logo.style.transform =
+`scale(${1 + power*0.08})`
+
+glow.style.opacity =
+0.4 + power*0.6
+
+}else{
+
+logo.style.transform="scale(1)"
+glow.style.opacity="0.4"
+
+}
+
+})
+
+</script>
+
+<script>
+/* ======================================================
+   ARS NEURAL SCANNER - THE INTELLIGENCE CORE
+====================================================== */
+const wrapElement = document.querySelector('.arsFocusWrap');
+const systemText = document.querySelector('.system-part');
+
+// مدیریت رادار و تعامل بصری
+if(wrapElement) {
+    const radar = document.createElement('div');
+    radar.className = 'ai-radar-ring';
+    wrapElement.appendChild(radar);
+    wrapElement.style.pointerEvents = 'auto';
+    
+    wrapElement.addEventListener('mouseenter', () => {
+        radar.style.borderColor = 'rgba(255, 213, 0, 0.8)';
+        radar.style.borderStyle = 'solid';
+    });
+
+    wrapElement.addEventListener('mouseleave', () => {
+        radar.style.borderColor = 'rgba(255, 213, 0, 0.2)';
+        radar.style.borderStyle = 'dashed';
+    });
+}
+// مدیریت تغییر متن متغیر زیر ARS
+if(systemText){
+    const statuses = ["SYSTEM", "ANALYSER", "INTELLIGENCE", "ACTIVE"];
+    let i = 0;
+    setInterval(() => {
+        systemText.style.transition = "opacity 0.4s ease";
+        systemText.style.opacity = "0";
+        setTimeout(() => {
+            systemText.innerText = statuses[i];
+            systemText.style.opacity = "1";
+            i = (i + 1) % statuses.length;
+        }, 400);
+    }, 4000);
+}
+</script>
+
+<script>
+
+function detectDevice(){
+
+const isMobile = window.innerWidth <= 768
+
+if(isMobile){
+
+document.body.classList.add("mobile")
+
+}else{
+
+document.body.classList.add("desktop")
+
+}
+
+}
+
+detectDevice()
+
+window.addEventListener("resize",detectDevice)
+
+</script>
+
+</body>
+</html>
